@@ -1,0 +1,40 @@
+﻿@if (Categories == null)
+{
+
+    <p><em>Loading...</em></p>
+
+}
+else
+{
+    <div>
+        <ul class="p-2 space-y-2 flex-1 overflow-auto" style="scrollbar-width: thin;">
+            @foreach (var item in Categories)
+            {
+                <li id="@item.CategoryId">
+                    <a class="flex space-x-4 items-center text-blue-500 p-2 rounded-sm bg-blue-100">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 13H11V3H3V13ZM3 21H11V15H3V21ZM13 21H21V11H13V21ZM13 3V9H21V3H13Z" fill="#2F80ED" />
+                        </svg>
+                        <span class="">
+                            @item.Name
+                        </span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+}
+
+@code {
+    [Inject]
+    public ICategoryDataService CategoryDataService { get; set; }
+
+
+    public ICollection<CategoryViewModel> Categories { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        Categories = await CategoryDataService.GetAllCategories();
+    }
+
+}
