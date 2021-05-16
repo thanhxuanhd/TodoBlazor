@@ -1,0 +1,84 @@
+﻿@page "/"
+@page "/Todos"
+@page "/Todos/{CategoryId:guid?}"
+
+
+@if (TodoList == null || TodoList?.Items == null)
+{
+    <div class="bg-white rounded-md p-2">Loading...</div>
+}
+else
+{
+    if (TodoList.Items.Count == 0)
+    {
+        <div class="bg-white rounded-md p-2 mb-2 h-28 w-full text-center">
+            <div class="mt-10">
+                No records.
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="grid grid-cols-4 oi-grap gap-4">
+            @foreach (var todo in TodoList.Items)
+            {
+                <div class="bg-white rounded-md p-2 mb-2 h-32 shadow-sm">
+                    <span id="@todo.TodoId">
+                        @todo.Title
+                    </span>
+                </div>
+            }
+        </div>
+
+        <Pager PageIndex="@TodoList.PageIndex" TotalPages=@TodoList.TotalPages OnClick="PageIndexChanged"
+               HasNextPage=@TodoList.HasNextPage HasPreviousPage=@TodoList.HasPreviousPage>
+        </Pager>
+    }
+}
+
+@code {
+    [Parameter]
+    public Guid? CategoryId { get; set; }
+
+    [Parameter]
+    public int PageSize { get; set; } = 20;
+
+    [Parameter]
+    public int PageIndex { get; set; } = 1;
+
+    [Parameter]
+    public string Keyword { get; set; }
+
+    [Parameter]
+    public bool IsComplete { get; set; }
+
+
+    [Inject]
+    public ITodoDataService TodoDataService
+    {
+        get; set;
+    }
+
+    public PaginatedTodoListViewModel TodoList { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await GetTodos();
+    }
+
+    protected async Task GetTodos()
+    {
+        TodoList = await TodoDataService.GetTodos(PageSize, PageIndex, Keyword, IsComplete, CategoryId);
+        StateHasChanged();
+    }
+
+    public async void PageIndexChanged(int newPageNumber)
+    {
+        if (newPageNumber < 1 || newPageNumber > TodoList.TotalPages)
+        {
+            return;
+        }
+        PageIndex = newPageNumber;
+        await GetTodos();
+    }
+}

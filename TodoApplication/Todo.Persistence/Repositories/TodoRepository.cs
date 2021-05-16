@@ -17,6 +17,12 @@ namespace Todo.Persistence.Repositories
         public async Task<PaginatedList<Entities.Todo>> GetTodoPaginatedList(bool IsCompletedOnly, int pageSize, int pageIndex, string keyword, Guid? categoryId)
         {
             var query = _dbContext.Todos.Where(x => !x.DeletedDate.HasValue);
+
+            if (categoryId.HasValue && categoryId.Value != Guid.Empty)
+            {
+                query = query.Where(x => x.CategoryId == categoryId.Value);
+            }
+
             if (!string.IsNullOrEmpty(keyword))
             {
                 query = query.Where(x => x.Title.Contains(keyword));
@@ -30,7 +36,7 @@ namespace Todo.Persistence.Repositories
             var totalCount = query.Count();
 
             var listpostCategorys = await query.OrderBy(x => x.Title)
-                                         .Skip(pageIndex * pageSize).Take(pageSize)
+                                         .Skip((pageIndex - 1) * pageSize).Take(pageSize)
                                          .AsNoTracking()
                                          .ToListAsync();
             var pages = new PaginatedList<Entities.Todo>()

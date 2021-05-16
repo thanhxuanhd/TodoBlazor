@@ -8,17 +8,18 @@ else
 {
     <div>
         <ul class="p-2 space-y-2 flex-1 overflow-auto" style="scrollbar-width: thin;">
-            @foreach (var item in Categories)
+            @foreach (var category in Categories)
             {
-                <li id="@item.CategoryId">
-                    <a class="flex space-x-4 items-center text-blue-500 p-2 rounded-sm bg-blue-100">
+                <li id="@category.CategoryId">
+                    <NavLink class="nav-link flex space-x-4 items-center text-blue-500 p-2 rounded-sm" href="@($"/todos/{category.CategoryId}")" Match="NavLinkMatch.All"
+                             @onclick="() => onChangeCategory(category.CategoryId)">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M3 13H11V3H3V13ZM3 21H11V15H3V21ZM13 21H21V11H13V21ZM13 3V9H21V3H13Z" fill="#2F80ED" />
                         </svg>
-                        <span class="">
-                            @item.Name
+                        <span class="ml-6">
+                            @category.Name
                         </span>
-                    </a>
+                    </NavLink>
                 </li>
             }
         </ul>
@@ -32,9 +33,25 @@ else
 
     public ICollection<CategoryViewModel> Categories { get; set; }
 
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
     protected async override Task OnInitializedAsync()
     {
         Categories = await CategoryDataService.GetAllCategories();
     }
 
+    protected void onChangeCategory(Guid categoryId)
+    {
+        NavigationManager.NavigateTo($"/todos/{categoryId}", true);
+
+        StateHasChanged();
+    }
+
 }
+
+<style>
+    a.active {
+        background: rgba(191, 219, 254, var(--tw-bg-opacity));
+    }
+</style>

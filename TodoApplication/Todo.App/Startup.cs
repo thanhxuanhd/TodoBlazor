@@ -35,6 +35,7 @@ namespace Todo.App
 
             services.AddHttpClient<IClient, Client>(client => client.BaseAddress = new Uri("https://localhost:44371/"));
             services.AddSingleton<ICategoryDataService, CategoryDataService>();
+            services.AddSingleton<ITodoDataService, TodoDataService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
