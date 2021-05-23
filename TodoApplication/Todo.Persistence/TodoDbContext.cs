@@ -24,12 +24,12 @@ namespace Todo.Persistence
             // Table Todo
             modelBuilder.Entity<Entities.Todo>().HasKey(x => x.TodoId);
             modelBuilder.Entity<Entities.Todo>().Property(x => x.Title)
-                .HasMaxLength(5000)
+                .HasMaxLength(1000)
                 .IsRequired();
 
             // Table Categories
             modelBuilder.Entity<Entities.Category>().Property(x => x.Name)
-                .HasMaxLength(1000)
+                .HasMaxLength(5000)
                 .IsRequired();
 
             //

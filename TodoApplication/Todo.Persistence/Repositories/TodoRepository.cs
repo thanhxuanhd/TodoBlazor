@@ -43,7 +43,8 @@ namespace Todo.Persistence.Repositories
             {
                 PageIndex = pageIndex,
                 Items = listpostCategorys,
-                TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
+                TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize),
+                TotalRecords = totalCount
             };
             return pages;
         }

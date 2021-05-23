@@ -12,6 +12,8 @@ namespace Todo.Application.Contracts
         public int PageIndex { get; set; }
         public int TotalPages { get; set; }
 
+        public int TotalRecords { get; set; }
+
         public List<T> Items { get; set; }
 
         public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
@@ -19,6 +21,7 @@ namespace Todo.Application.Contracts
             PageIndex = pageIndex;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
 
+            TotalRecords = count;
             Items = new List<T>();
             Items.AddRange(items);
         }

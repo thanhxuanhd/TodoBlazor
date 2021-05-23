@@ -1,0 +1,32 @@
+﻿
+
+<div class="todo-action text-right flex mt-4 w-full">
+    <div class="float-right w-full">
+        <input type="text" placeholder="Search..." class="w-1/2 p-2 border rounded border-transparent focus:outline-none text-sm shadow-sm"
+               @onchange="onKeywordChange" />
+        <button class="bg-blue-500 text-white p-2 rounded shadow-sm focus:outline-none" @onclick="onAddClick">
+            <span class="oi oi-plus"></span> Add
+        </button>
+    </div>
+</div>
+
+
+@code {
+    
+
+    [Parameter]
+    public EventCallback<string> OnKeywordChanged { get; set; }
+
+    [Parameter]
+    public EventCallback OnAddClicked { get; set; }
+
+    public async Task onKeywordChange(ChangeEventArgs e)
+    {
+        await OnKeywordChanged.InvokeAsync((string)e.Value);
+    }
+
+    public async Task onAddClick()
+    {
+        await this.OnAddClicked.InvokeAsync();
+    }
+}

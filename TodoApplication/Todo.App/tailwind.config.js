@@ -1,4 +1,7 @@
 const colors = require('tailwindcss/colors');
+const forms = require("@tailwindcss/forms")({
+    strategy: 'class',
+});
 module.exports = {
     purge: {
         enbaled: true,
@@ -9,16 +12,12 @@ module.exports = {
     },
     darkMode: false,
     theme: {
-        minHeight: {
-            '0': '0',
-            '1/4': '25%',
-            '1/2': '50%',
-            '3/4': '75%',
-            'full': '100%',
-        }
+        colors
     },
     variants: {
         extend: {},
     },
-    plugins: [],
+    plugins: [
+        forms
+    ],
 }
