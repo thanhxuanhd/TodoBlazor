@@ -46,42 +46,42 @@ namespace Todo.App.Services
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Guid> CreateAsync(CreateCategoryCommand body);
+        System.Threading.Tasks.Task<System.Guid> CreateCategoryAsync(CreateCategoryCommand body);
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Guid Create(CreateCategoryCommand body);
-    
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Guid> CreateAsync(CreateCategoryCommand body, System.Threading.CancellationToken cancellationToken);
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task UpdateAsync(UpdateCategoryCommand body);
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        void Update(UpdateCategoryCommand body);
+        System.Guid CreateCategory(CreateCategoryCommand body);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task UpdateAsync(UpdateCategoryCommand body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Guid> CreateCategoryAsync(CreateCategoryCommand body, System.Threading.CancellationToken cancellationToken);
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task CategoryAsync(System.Guid id);
+        System.Threading.Tasks.Task UpdateCategoryAsync(UpdateCategoryCommand body);
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        void Category(System.Guid id);
+        void UpdateCategory(UpdateCategoryCommand body);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task CategoryAsync(System.Guid id, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task UpdateCategoryAsync(UpdateCategoryCommand body, System.Threading.CancellationToken cancellationToken);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task DeleteCategoryAsync(System.Guid id);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        void DeleteCategory(System.Guid id);
+    
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task DeleteCategoryAsync(System.Guid id, System.Threading.CancellationToken cancellationToken);
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -98,55 +98,55 @@ namespace Todo.App.Services
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task GetAsync(System.Guid? todoId);
+        System.Threading.Tasks.Task<TodoVm> GetTodoAsync(System.Guid? todoId);
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        void Get(System.Guid? todoId);
-    
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task GetAsync(System.Guid? todoId, System.Threading.CancellationToken cancellationToken);
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task Create2Async(CreateTodoCommand body);
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        void Create2(CreateTodoCommand body);
+        TodoVm GetTodo(System.Guid? todoId);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task Create2Async(CreateTodoCommand body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<TodoVm> GetTodoAsync(System.Guid? todoId, System.Threading.CancellationToken cancellationToken);
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task Update2Async(UpdateTodoCommand body);
+        System.Threading.Tasks.Task CreateTodoAsync(CreateTodoCommand body);
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        void Update2(UpdateTodoCommand body);
-    
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task Update2Async(UpdateTodoCommand body, System.Threading.CancellationToken cancellationToken);
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task TodoAsync(System.Guid id);
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        void Todo(System.Guid id);
+        void CreateTodo(CreateTodoCommand body);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task TodoAsync(System.Guid id, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task CreateTodoAsync(CreateTodoCommand body, System.Threading.CancellationToken cancellationToken);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task UpdateTodoAsync(UpdateTodoCommand body);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        void UpdateTodo(UpdateTodoCommand body);
+    
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task UpdateTodoAsync(UpdateTodoCommand body, System.Threading.CancellationToken cancellationToken);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task DeleteTodoAsync(System.Guid id);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        void DeleteTodo(System.Guid id);
+    
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task DeleteTodoAsync(System.Guid id, System.Threading.CancellationToken cancellationToken);
     
     }
     
@@ -346,22 +346,22 @@ namespace Todo.App.Services
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Guid> CreateAsync(CreateCategoryCommand body)
+        public System.Threading.Tasks.Task<System.Guid> CreateCategoryAsync(CreateCategoryCommand body)
         {
-            return CreateAsync(body, System.Threading.CancellationToken.None);
+            return CreateCategoryAsync(body, System.Threading.CancellationToken.None);
         }
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Guid Create(CreateCategoryCommand body)
+        public System.Guid CreateCategory(CreateCategoryCommand body)
         {
-            return System.Threading.Tasks.Task.Run(async () => await CreateAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return System.Threading.Tasks.Task.Run(async () => await CreateCategoryAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Guid> CreateAsync(CreateCategoryCommand body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Guid> CreateCategoryAsync(CreateCategoryCommand body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("api/Category");
@@ -430,22 +430,22 @@ namespace Todo.App.Services
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task UpdateAsync(UpdateCategoryCommand body)
+        public System.Threading.Tasks.Task UpdateCategoryAsync(UpdateCategoryCommand body)
         {
-            return UpdateAsync(body, System.Threading.CancellationToken.None);
+            return UpdateCategoryAsync(body, System.Threading.CancellationToken.None);
         }
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public void Update(UpdateCategoryCommand body)
+        public void UpdateCategory(UpdateCategoryCommand body)
         {
-            System.Threading.Tasks.Task.Run(async () => await UpdateAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            System.Threading.Tasks.Task.Run(async () => await UpdateCategoryAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task UpdateAsync(UpdateCategoryCommand body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task UpdateCategoryAsync(UpdateCategoryCommand body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("api/Category");
@@ -522,22 +522,22 @@ namespace Todo.App.Services
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task CategoryAsync(System.Guid id)
+        public System.Threading.Tasks.Task DeleteCategoryAsync(System.Guid id)
         {
-            return CategoryAsync(id, System.Threading.CancellationToken.None);
+            return DeleteCategoryAsync(id, System.Threading.CancellationToken.None);
         }
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public void Category(System.Guid id)
+        public void DeleteCategory(System.Guid id)
         {
-            System.Threading.Tasks.Task.Run(async () => await CategoryAsync(id, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            System.Threading.Tasks.Task.Run(async () => await DeleteCategoryAsync(id, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task CategoryAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task DeleteCategoryAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
@@ -717,22 +717,22 @@ namespace Todo.App.Services
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task GetAsync(System.Guid? todoId)
+        public System.Threading.Tasks.Task<TodoVm> GetTodoAsync(System.Guid? todoId)
         {
-            return GetAsync(todoId, System.Threading.CancellationToken.None);
+            return GetTodoAsync(todoId, System.Threading.CancellationToken.None);
         }
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public void Get(System.Guid? todoId)
+        public TodoVm GetTodo(System.Guid? todoId)
         {
-            System.Threading.Tasks.Task.Run(async () => await GetAsync(todoId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return System.Threading.Tasks.Task.Run(async () => await GetTodoAsync(todoId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task GetAsync(System.Guid? todoId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<TodoVm> GetTodoAsync(System.Guid? todoId, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("api/Todo/Get?");
@@ -749,6 +749,7 @@ namespace Todo.App.Services
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
     
                     PrepareRequest(client_, request_, urlBuilder_);
     
@@ -773,7 +774,12 @@ namespace Todo.App.Services
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            return;
+                            var objectResponse_ = await ReadObjectResponseAsync<TodoVm>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
                         }
                         else
                         {
@@ -797,22 +803,22 @@ namespace Todo.App.Services
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task Create2Async(CreateTodoCommand body)
+        public System.Threading.Tasks.Task CreateTodoAsync(CreateTodoCommand body)
         {
-            return Create2Async(body, System.Threading.CancellationToken.None);
+            return CreateTodoAsync(body, System.Threading.CancellationToken.None);
         }
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public void Create2(CreateTodoCommand body)
+        public void CreateTodo(CreateTodoCommand body)
         {
-            System.Threading.Tasks.Task.Run(async () => await Create2Async(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            System.Threading.Tasks.Task.Run(async () => await CreateTodoAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task Create2Async(CreateTodoCommand body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task CreateTodoAsync(CreateTodoCommand body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("api/Todo/Create");
@@ -875,22 +881,22 @@ namespace Todo.App.Services
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task Update2Async(UpdateTodoCommand body)
+        public System.Threading.Tasks.Task UpdateTodoAsync(UpdateTodoCommand body)
         {
-            return Update2Async(body, System.Threading.CancellationToken.None);
+            return UpdateTodoAsync(body, System.Threading.CancellationToken.None);
         }
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public void Update2(UpdateTodoCommand body)
+        public void UpdateTodo(UpdateTodoCommand body)
         {
-            System.Threading.Tasks.Task.Run(async () => await Update2Async(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            System.Threading.Tasks.Task.Run(async () => await UpdateTodoAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task Update2Async(UpdateTodoCommand body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task UpdateTodoAsync(UpdateTodoCommand body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("api/Todo/Update");
@@ -953,22 +959,22 @@ namespace Todo.App.Services
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task TodoAsync(System.Guid id)
+        public System.Threading.Tasks.Task DeleteTodoAsync(System.Guid id)
         {
-            return TodoAsync(id, System.Threading.CancellationToken.None);
+            return DeleteTodoAsync(id, System.Threading.CancellationToken.None);
         }
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public void Todo(System.Guid id)
+        public void DeleteTodo(System.Guid id)
         {
-            System.Threading.Tasks.Task.Run(async () => await TodoAsync(id, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            System.Threading.Tasks.Task.Run(async () => await DeleteTodoAsync(id, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task TodoAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task DeleteTodoAsync(System.Guid id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
@@ -1198,6 +1204,21 @@ namespace Todo.App.Services
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.3.0 (Newtonsoft.Json v12.0.0.0)")]
+    public partial class CategoryVm 
+    {
+        [Newtonsoft.Json.JsonProperty("categoryId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid CategoryId { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Name { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("canDeleteCategory", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool CanDeleteCategory { get; set; }
+    
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.3.0 (Newtonsoft.Json v12.0.0.0)")]
     public partial class TodoVm 
     {
         [Newtonsoft.Json.JsonProperty("title", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -1208,6 +1229,15 @@ namespace Todo.App.Services
     
         [Newtonsoft.Json.JsonProperty("isCompleted", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsCompleted { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("todoId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid TodoId { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("categoryId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid CategoryId { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("category", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public CategoryVm Category { get; set; }
     
     
     }

@@ -36,6 +36,7 @@ namespace Todo.Persistence.Repositories
             var totalCount = query.Count();
 
             var listpostCategorys = await query.OrderBy(x => x.Title)
+                                         .Include(x => x.Category)
                                          .Skip((pageIndex - 1) * pageSize).Take(pageSize)
                                          .AsNoTracking()
                                          .ToListAsync();

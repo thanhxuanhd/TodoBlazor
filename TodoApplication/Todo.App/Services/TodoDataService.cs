@@ -15,6 +15,13 @@ namespace Todo.App.Services
             _mapper = mapper;
         }
 
+        public async Task<TodoViewModel> GetTodo(Guid todoId)
+        {
+            var todo = await _client.GetTodoAsync(todoId);
+            var mapTodo = _mapper.Map<TodoViewModel>(todo);
+            return mapTodo;
+        }
+
         public async Task<PaginatedTodoListViewModel> GetTodos(int pageSize = 20, int pageIndex = 0, string keyword = "", bool isCompletedOnly = false, Guid? categoryId = null)
         {
             var todos = await _client.GetTodosAsync(pageSize, pageIndex, keyword, isCompletedOnly, categoryId);

@@ -37,20 +37,20 @@
                                 <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
                                     @if (IsEdit)
                                     {
-                                        <span>Edit Todo</span>
+                                        <span class="font-bold">Edit To do</span>
                                     }
                                     else
                                     {
-                                        <span>Add Todo</span>
+                                        <span class="font-bold">Add To do</span>
                                     }
                                 </h3>
                                 <div class="mt-2">
-                                    <div class="form-group">
-                                        <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+                                    <div class="form-group mb-2">
+                                        <label for="title" class="block text-sm font-medium text-gray-700 font-bold">Title</label>
                                         <InputText type="text" name="title" id="title" class="mt-1 p-1 form-input focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm border-gray-300 rounded-md" @bind-Value="Model.Title" />
                                     </div>
                                     <div class="form-group">
-                                        <label for="description" class="block text-sm font-medium text-gray-700">
+                                        <label for="description" class="block text-sm font-medium text-gray-700 font-bold">
                                             Description
                                         </label>
                                         <div class="mt-1">

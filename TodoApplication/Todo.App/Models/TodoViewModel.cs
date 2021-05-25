@@ -17,7 +17,7 @@ namespace Todo.App.Models
 
         public bool IsCompleted { get; set; }
 
-        public CategoryViewModel Category { get; set; }
+        public CategoryViewModel? Category { get; set; }
 
         public Guid CategoryId { get; set; }
     }

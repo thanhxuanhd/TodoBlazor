@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Todo.Application.Contracts;
 using Todo.Application.Features.Todo.Commands.CreateTodo;
 using Todo.Application.Features.Todo.Commands.UpdateTodo;
+using Todo.Application.Features.Todo.Queries.GetTodoDetail;
 using Todo.Application.Features.Todo.Queries.GetTodoList;
 
 namespace Todo.API.Controllers
@@ -36,27 +37,31 @@ namespace Todo.API.Controllers
             return Ok(dtos);
         }
 
-        [HttpGet("Get", Name = "Get")]
-        public IActionResult Get(Guid todoId)
+        [HttpGet("Get", Name = "GetTodo")]
+        public async Task<ActionResult<TodoVm>> GetTodo(Guid todoId)
         {
-            return Ok(todoId);
+            var dto = await _mediator.Send(new GetTodoDetailQuery()
+            {
+                TodoId = todoId
+            });
+
+            return Ok(dto);
         }
 
-        [HttpPost("Create")]
-        public IActionResult Create([FromBody] CreateTodoCommand createTodoCommand)
+        [HttpPost("Create", Name = "CreateTodo")]
+        public IActionResult CreateTodo([FromBody] CreateTodoCommand createTodoCommand)
         {
             return Ok(createTodoCommand);
         }
 
-        [HttpPut("Update")]
-        public IActionResult Update([FromBody] UpdateTodoCommand updateTodoCommand)
+        [HttpPut("Update", Name = "UpdateTodo")]
+        public IActionResult UpdateTodo([FromBody] UpdateTodoCommand updateTodoCommand)
         {
             return Ok(updateTodoCommand);
         }
 
-
-        [HttpPut("{id}")]
-        public IActionResult Delete(Guid id)
+        [HttpPut("{id}", Name = "DeleteTodo")]
+        public IActionResult DeleteTodo(Guid id)
         {
             return Ok(id);
         }

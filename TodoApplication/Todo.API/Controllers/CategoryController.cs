@@ -42,28 +42,28 @@ namespace Todo.API.Controllers
             return Ok(category);
         }
 
-        [HttpPost(Name = "Create")]
-        public async Task<ActionResult<Guid>> Create([FromBody] CreateCategoryCommand createCategoryCommand)
+        [HttpPost(Name = "CreateCategory")]
+        public async Task<ActionResult<Guid>> CreateCategory([FromBody] CreateCategoryCommand createCategoryCommand)
         {
             var categoryCommandResponse = await _mediator.Send(createCategoryCommand);
             return Ok(categoryCommandResponse);
         }
 
-        [HttpPut(Name = "Update")]
+        [HttpPut(Name = "UpdateCategory")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> Update([FromBody] UpdateCategoryCommand updateCategoryCommand)
+        public async Task<ActionResult> UpdateCategory([FromBody] UpdateCategoryCommand updateCategoryCommand)
         {
             await _mediator.Send(updateCategoryCommand);
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}", Name = "DeleteCategory")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> Delete(Guid id)
+        public async Task<ActionResult> DeleteCategory(Guid id)
         {
             var deleteCategoryCommand = new DeleteCategoryCommand() { CategoryId = id };
             await _mediator.Send(deleteCategoryCommand);

@@ -1,21 +1,31 @@
 ﻿
 
 <div class="todo-action text-right flex mt-4 w-full">
-    <div class="float-right w-full">
-        <input type="text" placeholder="Search..." class="w-1/2 p-2 border rounded border-transparent focus:outline-none text-sm shadow-sm"
+    <div class="w-full inline-flex text-right">
+        <div class="w-1/3 mr-5 mt-2">
+            <input id="isCompleted" name="isCompleted" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mt-1" @onchange="onCompletedChange" />
+            <label for="isCompleted" class="font-medium text-gray-700">Completed</label>
+        </div>
+        <input type="text" placeholder="Search..." class="w-2/3 p-2 form-input focus:ring-indigo-500 focus:border-indigo-500 text-md shadow-sm border-gray-300 rounded-md"
                @onchange="onKeywordChange" />
-        <button class="bg-blue-500 text-white p-2 rounded shadow-sm focus:outline-none" @onclick="onAddClick">
-            <span class="oi oi-plus"></span> Add
+        <button class="ml-3 p-3 border shadow-sm text-md bg-blue-500 font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" @onclick="onAddClick">
+            <span class="sr-only">Add</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
         </button>
     </div>
 </div>
 
 
 @code {
-    
+
 
     [Parameter]
     public EventCallback<string> OnKeywordChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> OnCompletedChanged { get; set; }
 
     [Parameter]
     public EventCallback OnAddClicked { get; set; }
@@ -28,5 +38,10 @@
     public async Task onAddClick()
     {
         await this.OnAddClicked.InvokeAsync();
+    }
+
+    public async Task onCompletedChange(ChangeEventArgs e)
+    {
+        await OnCompletedChanged.InvokeAsync((bool)e.Value);
     }
 }

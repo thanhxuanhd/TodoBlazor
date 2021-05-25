@@ -22,12 +22,13 @@ namespace Todo.Application.Features.Categories.Queries.GetCategoryDetail
         public async Task<CategoryVm> Handle(GetCategoryDetailQuery request, CancellationToken cancellationToken)
         {
             var @category = await _categoryRepository.GetByIdAsync(request.CategoryId);
-            var categoryVm = _mapper.Map<CategoryVm>(@category);
 
             if (@category == null)
             {
                 throw new NotFoundException(nameof(Entities.Category), request.CategoryId);
             }
+
+            var categoryVm = _mapper.Map<CategoryVm>(@category);
 
             return categoryVm;
         }
