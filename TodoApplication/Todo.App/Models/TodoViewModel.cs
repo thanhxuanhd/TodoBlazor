@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Todo.App.Models
 {
@@ -19,6 +16,6 @@ namespace Todo.App.Models
 
         public CategoryViewModel? Category { get; set; }
 
-        public Guid CategoryId { get; set; }
+        public Guid? CategoryId { get; set; }
     }
 }

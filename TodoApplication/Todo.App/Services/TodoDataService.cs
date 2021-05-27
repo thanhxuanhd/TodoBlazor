@@ -15,6 +15,11 @@ namespace Todo.App.Services
             _mapper = mapper;
         }
 
+        public Task<Guid> CreateTodo(TodoViewModel todo)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<TodoViewModel> GetTodo(Guid todoId)
         {
             var todo = await _client.GetTodoAsync(todoId);

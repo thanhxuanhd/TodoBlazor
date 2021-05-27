@@ -48,6 +48,7 @@
                                     <div class="form-group mb-2">
                                         <label for="title" class="block text-sm font-medium text-gray-700 font-bold">Title</label>
                                         <InputText type="text" name="title" id="title" class="mt-1 p-1 form-input focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm border-gray-300 rounded-md" @bind-Value="Model.Title" />
+                                        <ValidationMessage class="offset-sm-3 col-sm-5" For="@(() => Model.Title)" />
                                     </div>
                                     <div class="form-group">
                                         <label for="description" class="block text-sm font-medium text-gray-700 font-bold">
@@ -57,6 +58,25 @@
                                             <InputTextArea id="description" name="about" rows="3" class="mt-1 p-1 form-input focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm border-gray-300 rounded-md"
                                                            @bind-Value="Model.Description"></InputTextArea>
                                         </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <InputCheckbox id="todoIsCompleted" name="isCompleted" type="checkbox" class="form-checkbox focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mt-1" @bind-Value="Model.IsCompleted" />
+                                        <label for="todoIsCompleted" class="font-medium text-gray-700 mt-2">Completed</label>
+                                    </div>
+
+                                    <label for="category" class="block text-sm font-medium text-gray-700 font-bold">
+                                        Category
+                                    </label>
+                                    <div class="mt-1">
+                                        <InputSelect @bind-Value="@Model.CategoryId" class="form-select focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm border-gray-300 rounded-md">
+                                            <option value="">Please select category</option>
+                                            @foreach (var category in Categories)
+                                            {
+                                                <option value="@category.CategoryId">
+                                                    @category.Name
+                                                </option>
+                                            }
+                                        </InputSelect>
                                     </div>
                                 </div>
                             </div>
@@ -79,6 +99,12 @@
 }
 
 @code {
+    [Inject]
+    public ITodoDataService TodoService { get; set; }
+
+    [Inject]
+    public ICategoryDataService CategoryDataService { get; set; }
+
     [Parameter]
     public TodoViewModel Model { get; set; }
 
@@ -88,13 +114,17 @@
     [Parameter]
     public EventCallback<TodoViewModel> OnSavelClicked { get; set; }
 
+    public ICollection<CategoryViewModel> Categories { get; set; }
+
     [Parameter]
     public bool IsEdit { get; set; }
 
     private EditContext editContext;
 
-    protected override void OnInitialized()
-    { }
+    protected async override Task OnInitializedAsync()
+    {
+        Categories = await CategoryDataService.GetAllCategories();
+    }
 
     public async Task onCancelClick()
     {
@@ -105,6 +135,14 @@
     public async Task onSaveClick()
     {
         this.Model = null;
+        if (IsEdit)
+        {
+
+        }
+        else
+        {
+
+        }
         await this.OnSavelClicked.InvokeAsync(this.Model);
     }
 }
