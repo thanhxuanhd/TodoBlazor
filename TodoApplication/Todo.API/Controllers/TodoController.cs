@@ -37,7 +37,7 @@ namespace Todo.API.Controllers
             return Ok(dtos);
         }
 
-        [HttpGet("Get", Name = "GetTodo")]
+        [HttpGet(Name = "GetTodo")]
         public async Task<ActionResult<TodoVm>> GetTodo(Guid todoId)
         {
             var dto = await _mediator.Send(new GetTodoDetailQuery()
@@ -48,19 +48,25 @@ namespace Todo.API.Controllers
             return Ok(dto);
         }
 
-        [HttpPost("Create", Name = "CreateTodo")]
+        [HttpPost(Name = "CreateTodo")]
         public IActionResult CreateTodo([FromBody] CreateTodoCommand createTodoCommand)
         {
             return Ok(createTodoCommand);
         }
 
-        [HttpPut("Update", Name = "UpdateTodo")]
+        [HttpPut(Name = "UpdateTodo")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public IActionResult UpdateTodo([FromBody] UpdateTodoCommand updateTodoCommand)
         {
             return Ok(updateTodoCommand);
         }
 
-        [HttpPut("{id}", Name = "DeleteTodo")]
+        [HttpDelete("{id}", Name = "DeleteTodo")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public IActionResult DeleteTodo(Guid id)
         {
             return Ok(id);

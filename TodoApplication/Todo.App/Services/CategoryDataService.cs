@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,11 +17,33 @@ namespace Todo.App.Services
             _mapper = mapper;
         }
 
+        public async Task<Guid> CreateCategory(CategoryViewModel category)
+        {
+            var categoryDTO = _mapper.Map<CreateCategoryCommand>(category);
+
+            Guid categoryId = await _client.CreateCategoryAsync(categoryDTO);
+
+            return categoryId;
+        }
+
         public async Task<List<CategoryViewModel>> GetAllCategories()
         {
             var allCategories = await _client.GetAllCategoriesAsync();
             var mappedCategories = _mapper.Map<ICollection<CategoryViewModel>>(allCategories);
             return mappedCategories.ToList();
+        }
+
+        public async Task<CategoryViewModel> GetCategory(Guid id)
+        {
+            var category = await _client.GetCategoryAsync(id);
+
+            return _mapper.Map<CategoryViewModel>(category);
+        }
+
+        public async Task UpdapteCategory(CategoryViewModel category)
+        {
+            var categoryDto = _mapper.Map<UpdateCategoryCommand>(category);
+            await _client.UpdateCategoryAsync(categoryDto);
         }
     }
 }

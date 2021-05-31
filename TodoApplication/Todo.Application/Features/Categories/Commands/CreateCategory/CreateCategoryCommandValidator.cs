@@ -7,11 +7,11 @@ namespace Todo.Application.Features.Categories.Commands.CreateCategory
     {
         public CreateCategoryCommandValidator(ICategoryRepository categoryRepository)
         {
-            RuleFor(p => p.Name)
-                .NotEmpty().WithMessage("{PropertyName} is required.")
-                .NotNull()
-                .MaximumLength(1000).WithMessage("{PropertyName} must not exceed 10 characters.")
-                .Must((name) => categoryRepository.CheckCategoryDuplicate(name));
+           RuleFor(p => p.Name)
+                 .NotEmpty().WithMessage("{PropertyName} is required.")
+                 .NotNull()
+                 .MaximumLength(1000).WithMessage("{PropertyName} must not exceed 1000 characters.")
+                 .Must((name) => !categoryRepository.CheckCategoryDuplicate(name)).WithMessage("{PropertyName} is duplicate.");
         }
     }
 }

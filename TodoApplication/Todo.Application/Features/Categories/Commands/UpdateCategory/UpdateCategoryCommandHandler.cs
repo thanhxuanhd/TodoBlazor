@@ -22,7 +22,7 @@ namespace Todo.Application.Features.Categories.Commands.UpdateCategory
         public async Task<UpdateCategoryCommandResponse> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
         {
             var validator = new UpdateCategoryCommandValidator(_categoryRepository);
-            var updateCategoryResponse = new UpdateCategoryCommandResponse(); ;
+            var updateCategoryResponse = new UpdateCategoryCommandResponse();
 
             var categoryToUpdate = await _categoryRepository.GetByIdAsync(request.CategoryId);
 

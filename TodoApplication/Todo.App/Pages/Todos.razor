@@ -96,7 +96,6 @@ else
     protected async Task GetTodos()
     {
         TodoList = await TodoDataService.GetTodos(PageSize, PageIndex, Keyword, IsComplete, CategoryId);
-        StateHasChanged();
     }
 
     public async void PageIndexChanged(int newPageNumber)
@@ -107,6 +106,7 @@ else
         }
         PageIndex = newPageNumber;
         await GetTodos();
+        StateHasChanged();
     }
 
     public async Task HandleKeyWordChange(string keyword)
