@@ -17,13 +17,15 @@ namespace Todo.App.Services
             _mapper = mapper;
         }
 
-        public async Task<Guid> CreateCategory(CategoryViewModel category)
+        public async Task<CreateCategoryResponse> CreateCategory(CategoryViewModel category)
         {
             var categoryDTO = _mapper.Map<CreateCategoryCommand>(category);
 
-            Guid categoryId = await _client.CreateCategoryAsync(categoryDTO);
+            var categoryResponse = await _client.CreateCategoryAsync(categoryDTO);
 
-            return categoryId;
+            var mapCategoryResponse = _mapper.Map<CreateCategoryResponse>(categoryResponse);
+
+            return mapCategoryResponse;
         }
 
         public async Task<List<CategoryViewModel>> GetAllCategories()

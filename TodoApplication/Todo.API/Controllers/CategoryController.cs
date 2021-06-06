@@ -43,10 +43,10 @@ namespace Todo.API.Controllers
         }
 
         [HttpPost(Name = "CreateCategory")]
-        public async Task<ActionResult<Guid>> CreateCategory([FromBody] CreateCategoryCommand createCategoryCommand)
+        public async Task<ActionResult<CreateCategoryCommandResponse>> CreateCategory([FromBody] CreateCategoryCommand createCategoryCommand)
         {
             var categoryCommandResponse = await _mediator.Send(createCategoryCommand);
-            return Ok(categoryCommandResponse.Category?.CategoryId);
+            return Ok(categoryCommandResponse);
         }
 
         [HttpPut(Name = "UpdateCategory")]

@@ -15,8 +15,10 @@ namespace Todo.App.Services.Profiles
             CreateMap<CategoryVm, CategoryViewModel>().ReverseMap();
             CreateMap<CategoryViewModel, CreateCategoryCommand>().ReverseMap();
             CreateMap<CategoryViewModel, UpdateCategoryCommand>().ReverseMap();
+            CreateMap<CategoryViewModel, CreateCategoryDto>().ReverseMap();
             CreateMap<TodoVmPaginatedList, PaginatedTodoListViewModel>().ReverseMap();
             CreateMap<TodoVm, TodoViewModel>().ReverseMap();
+            CreateMap<CreateCategoryCommandResponse, CreateCategoryResponse>().ReverseMap();
         }
     }
 }

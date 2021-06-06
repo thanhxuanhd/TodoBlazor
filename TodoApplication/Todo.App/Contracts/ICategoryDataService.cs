@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Todo.App.Models;
+using Todo.App.Services;
 
 namespace Todo.App.Contracts
 {
@@ -11,7 +12,7 @@ namespace Todo.App.Contracts
 
         Task<CategoryViewModel> GetCategory(Guid id);
 
-        Task<Guid> CreateCategory(CategoryViewModel category);
+        Task<CreateCategoryResponse> CreateCategory(CategoryViewModel category);
 
         Task UpdapteCategory(CategoryViewModel category);
     }

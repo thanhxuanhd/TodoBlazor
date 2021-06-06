@@ -102,9 +102,6 @@
     [Inject]
     public ITodoDataService TodoService { get; set; }
 
-    [Inject]
-    public ICategoryDataService CategoryDataService { get; set; }
-
     [Parameter]
     public TodoViewModel Model { get; set; }
 
@@ -114,6 +111,7 @@
     [Parameter]
     public EventCallback<TodoViewModel> OnSavelClicked { get; set; }
 
+    [Parameter]
     public ICollection<CategoryViewModel> Categories { get; set; }
 
     [Parameter]
@@ -121,10 +119,6 @@
 
     private EditContext editContext;
 
-    protected async override Task OnInitializedAsync()
-    {
-        Categories = await CategoryDataService.GetAllCategories();
-    }
 
     public async Task onCancelClick()
     {

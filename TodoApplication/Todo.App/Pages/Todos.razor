@@ -57,7 +57,7 @@ else
     }
 }
 
-<AddEditTodo Model="@TodoModel" OnCancelClicked="@HandleCancelClick" OnSavelClicked="@HandleSaveCLick" IsEdit="@IsEdit" />
+<AddEditTodo Model="@TodoModel" OnCancelClicked="@HandleCancelClick" OnSavelClicked="@HandleSaveCLick" IsEdit="@IsEdit" Categories="@Categories" />
 
 @code {
     [Parameter]
@@ -77,16 +77,17 @@ else
 
     public bool IsEdit { get; set; }
 
+    [Inject]
+    public ITodoDataService TodoDataService { get; set; }
 
     [Inject]
-    public ITodoDataService TodoDataService
-    {
-        get; set;
-    }
+    public ICategoryDataService CategoryDataService { get; set; }
 
     public PaginatedTodoListViewModel TodoList { get; set; }
 
     public TodoViewModel TodoModel { get; set; }
+
+    public List<CategoryViewModel> Categories { get; set; }
 
     protected async override Task OnInitializedAsync()
     {
@@ -121,10 +122,12 @@ else
         await GetTodos();
     }
 
-    public void HandleAddClick()
+    public async Task HandleAddClick()
     {
         this.IsEdit = false;
+        await GetCategories();
         this.TodoModel = new TodoViewModel();
+
     }
 
     public void HandleSaveCLick()
@@ -140,6 +143,12 @@ else
     public async Task HandleEditClick(MouseEventArgs eventArgs, Guid todoId)
     {
         IsEdit = true;
+        await GetCategories();
         TodoModel = await TodoDataService.GetTodo(todoId);
+    }
+
+    public async Task GetCategories()
+    {
+        Categories = await CategoryDataService.GetAllCategories();
     }
 }
