@@ -28,12 +28,13 @@ namespace Todo.App
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
+            var apiURL = Configuration["APIConfiguration:Url"];
             services.AddSingleton(new HttpClient
             {
-                BaseAddress = new Uri("https://localhost:44371/")
+                BaseAddress = new Uri(apiURL)
             });
 
-            services.AddHttpClient<IClient, Client>(client => client.BaseAddress = new Uri("https://localhost:44371/"));
+            services.AddHttpClient<IClient, Client>(client => client.BaseAddress = new Uri(apiURL));
             services.AddSingleton<ICategoryDataService, CategoryDataService>();
             services.AddSingleton<ITodoDataService, TodoDataService>();
         }

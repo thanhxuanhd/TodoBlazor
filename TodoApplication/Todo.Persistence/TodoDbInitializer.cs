@@ -20,13 +20,15 @@ namespace Todo.Persistence
                 Entities.Category category = new()
                 {
                     Name = "My Todo",
-                    CategoryId = Guid.NewGuid()
+                    CategoryId = Guid.NewGuid(),
+                    CreatedDate = DateTime.UtcNow
                 };
 
                 Entities.Category category2 = new()
                 {
                     Name = "My Todo 2",
-                    CategoryId = Guid.NewGuid()
+                    CategoryId = Guid.NewGuid(),
+                    CreatedDate = DateTime.UtcNow
                 };
 
                 dbContext.Categories.Add(category);
