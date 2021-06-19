@@ -4,6 +4,8 @@ using Todo.Application.Features.Categories.Commands.CreateCategory;
 using Todo.Application.Features.Categories.Commands.UpdateCategory;
 using Todo.Application.Features.Categories.Queries.GetCategoriesList;
 using Todo.Application.Features.Categories.Queries.GetCategoryDetail;
+using Todo.Application.Features.Todo.Commands.CreateTodo;
+using Todo.Application.Features.Todo.Commands.UpdateTodo;
 using Todo.Application.Features.Todo.Queries.GetTodoList;
 using Entities = Todo.Domain.Entities;
 
@@ -15,6 +17,8 @@ namespace Todo.Application.Profiles
         {
             CreateMap<Entities.Todo, TodoVm>().ReverseMap();
             CreateMap<PaginatedList<Entities.Todo>, PaginatedList<TodoVm>>().ReverseMap();
+            CreateMap<PaginatedList<Entities.Todo>, CreateTodoDto>().ReverseMap();
+            CreateMap<PaginatedList<Entities.Todo>, UpdateTodoDto>().ReverseMap();
 
             CreateMap<Entities.Category, CategoryListVm>().ReverseMap();
             CreateMap<Entities.Category, CreateCategoryDto>().ReverseMap();

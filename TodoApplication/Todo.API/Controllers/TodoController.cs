@@ -49,18 +49,17 @@ namespace Todo.API.Controllers
         }
 
         [HttpPost(Name = "CreateTodo")]
-        public IActionResult CreateTodo([FromBody] CreateTodoCommand createTodoCommand)
+        public async  Task<ActionResult<CreateTodoCommandResponse>> CreateTodo([FromBody] CreateTodoCommand createTodoCommand)
         {
-            return Ok(createTodoCommand);
+            var todoResponse = await _mediator.Send(createTodoCommand);
+            return Ok(todoResponse);
         }
 
         [HttpPut(Name = "UpdateTodo")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesDefaultResponseType]
-        public IActionResult UpdateTodo([FromBody] UpdateTodoCommand updateTodoCommand)
+        public async Task<ActionResult<UpdateTodoCommandResponse>> UpdateTodo([FromBody] UpdateTodoCommand updateTodoCommand)
         {
-            return Ok(updateTodoCommand);
+            var todoResponse = await _mediator.Send(updateTodoCommand);
+            return Ok(todoResponse);
         }
 
         [HttpDelete("{id}", Name = "DeleteTodo")]

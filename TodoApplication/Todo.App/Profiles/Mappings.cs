@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Todo.App.Models;
 
 namespace Todo.App.Services.Profiles
 {
-    public class Mappings: Profile
+    public class Mappings : Profile
     {
         public Mappings()
         {
@@ -16,9 +12,13 @@ namespace Todo.App.Services.Profiles
             CreateMap<CategoryViewModel, CreateCategoryCommand>().ReverseMap();
             CreateMap<CategoryViewModel, UpdateCategoryCommand>().ReverseMap();
             CreateMap<CategoryViewModel, CreateCategoryDto>().ReverseMap();
+            CreateMap<CreateCategoryCommandResponse, CreateCategoryResponse>().ReverseMap();
+
             CreateMap<TodoVmPaginatedList, PaginatedTodoListViewModel>().ReverseMap();
             CreateMap<TodoVm, TodoViewModel>().ReverseMap();
-            CreateMap<CreateCategoryCommandResponse, CreateCategoryResponse>().ReverseMap();
+            CreateMap<TodoVm, CreateTodoCommand>().ReverseMap();
+            CreateMap<CreateTodoCommandResponse, CreateTodoResponse>().ReverseMap();
+            CreateMap<UpdateTodoResponse, UpdateTodoCommandResponse>().ReverseMap();
         }
     }
 }

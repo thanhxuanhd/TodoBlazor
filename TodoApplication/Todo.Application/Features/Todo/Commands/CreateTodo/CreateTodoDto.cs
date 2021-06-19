@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Todo.Application.Features.Todo.Commands.UpdateTodo
+namespace Todo.Application.Features.Todo.Commands.CreateTodo
 {
-    public class UpdateTodoDto
+    public class CreateTodoDto
     {
         public string Title { get; set; }
 

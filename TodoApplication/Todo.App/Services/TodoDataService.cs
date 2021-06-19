@@ -15,9 +15,12 @@ namespace Todo.App.Services
             _mapper = mapper;
         }
 
-        public Task<Guid> CreateTodo(TodoViewModel todo)
+        public async Task<CreateTodoResponse> CreateTodo(TodoViewModel todo)
         {
-            throw new NotImplementedException();
+            var todoMap = _mapper.Map<CreateTodoCommand>(todo);
+            var createTodoResponse = await _client.CreateTodoAsync(todoMap);
+            var mapCreateTodoResponse = _mapper.Map<CreateTodoResponse>(createTodoResponse);
+            return mapCreateTodoResponse;
         }
 
         public async Task<TodoViewModel> GetTodo(Guid todoId)
@@ -33,6 +36,14 @@ namespace Todo.App.Services
             var mapTodos = _mapper.Map<PaginatedTodoListViewModel>(todos);
 
             return mapTodos;
+        }
+
+        public async Task<UpdateTodoResponse> UpdateTodo(TodoViewModel todo)
+        {
+            var todoMap = _mapper.Map<UpdateTodoCommand>(todo);
+            var updateTodoCommandResponse = await _client.UpdateTodoAsync(todoMap);
+            var mapTodoResponse = _mapper.Map<UpdateTodoResponse>(updateTodoCommandResponse);
+            return mapTodoResponse;
         }
     }
 }

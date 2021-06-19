@@ -13,6 +13,8 @@ namespace Todo.App.Contracts
         public Task<TodoViewModel> GetTodo(Guid todoId);
 
 
-        public Task<Guid> CreateTodo(TodoViewModel todo);
+        public Task<CreateTodoResponse> CreateTodo(TodoViewModel todo);
+
+        public Task<UpdateTodoResponse> UpdateTodo(TodoViewModel todo);
     }
 }

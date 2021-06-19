@@ -28,6 +28,7 @@ namespace Todo.Application.Features.Categories.Commands.UpdateCategory
 
             if (categoryToUpdate == null)
             {
+                updateCategoryResponse.Success = false;
                 updateCategoryResponse.ValidationErrors.Add($"Category not found id {request.CategoryId}");
             }
 
