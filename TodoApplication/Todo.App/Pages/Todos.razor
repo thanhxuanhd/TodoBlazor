@@ -128,9 +128,14 @@ else
 
     }
 
-    public void HandleSaveCLick()
+    public async Task HandleSaveCLick(TodoViewModel model)
     {
-        this.TodoModel = null;
+        if (model == null)
+        {
+            this.TodoModel = null;
+            await GetTodos();
+            StateHasChanged();
+        }
     }
 
     public void HandleCancelClick()

@@ -34,11 +34,12 @@ namespace Todo.Application.Features.Todo.Commands.CreateTodo
                 {
                     createTodoCommandResponse.ValidationErrors.Add(error.ErrorMessage);
                 }
+                createTodoCommandResponse.Todo = _mapper.Map<CreateTodoDto>(request);
             }
 
             if (createTodoCommandResponse.Success)
             {
-                var todo = new Entities.Todo() { Title = request.Title };
+                var todo = _mapper.Map<Entities.Todo>(request);
                 todo = await _todoRepository.AddAsync(todo);
                 createTodoCommandResponse.Todo = _mapper.Map<CreateTodoDto>(todo);
             }

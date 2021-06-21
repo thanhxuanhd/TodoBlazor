@@ -17,8 +17,13 @@ namespace Todo.App.Services.Profiles
             CreateMap<TodoVmPaginatedList, PaginatedTodoListViewModel>().ReverseMap();
             CreateMap<TodoVm, TodoViewModel>().ReverseMap();
             CreateMap<TodoVm, CreateTodoCommand>().ReverseMap();
+            CreateMap<TodoViewModel, CreateTodoCommand>().ReverseMap();
             CreateMap<CreateTodoCommandResponse, CreateTodoResponse>().ReverseMap();
             CreateMap<UpdateTodoResponse, UpdateTodoCommandResponse>().ReverseMap();
+            CreateMap<TodoVm, UpdateTodoCommand>().ReverseMap();
+            CreateMap<TodoViewModel, UpdateTodoCommand>().ReverseMap();
+            CreateMap<CreateTodoDto, TodoViewModel>().ReverseMap();
+            CreateMap<UpdateTodoDto, TodoViewModel>().ReverseMap();
         }
     }
 }

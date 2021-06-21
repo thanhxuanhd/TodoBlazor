@@ -17,8 +17,12 @@ namespace Todo.Application.Profiles
         {
             CreateMap<Entities.Todo, TodoVm>().ReverseMap();
             CreateMap<PaginatedList<Entities.Todo>, PaginatedList<TodoVm>>().ReverseMap();
-            CreateMap<PaginatedList<Entities.Todo>, CreateTodoDto>().ReverseMap();
-            CreateMap<PaginatedList<Entities.Todo>, UpdateTodoDto>().ReverseMap();
+            CreateMap<Entities.Todo, CreateTodoDto>().ReverseMap();
+            CreateMap<Entities.Todo, UpdateTodoDto>().ReverseMap();
+            CreateMap<CreateTodoDto, CreateTodoCommand>().ReverseMap();
+            CreateMap<UpdateTodoDto, UpdateCategoryCommand>().ReverseMap();
+            CreateMap<Entities.Todo, CreateTodoCommand>().ReverseMap();
+            CreateMap<Entities.Todo, UpdateTodoCommand>().ReverseMap();
 
             CreateMap<Entities.Category, CategoryListVm>().ReverseMap();
             CreateMap<Entities.Category, CreateCategoryDto>().ReverseMap();

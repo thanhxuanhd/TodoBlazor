@@ -44,6 +44,15 @@
                                 </h3>
                                 <DataAnnotationsValidator />
                                 <ValidationSummary />
+                                @if (Errors != null && Errors.Count() > 0)
+                                {
+                                    <ul class="validation-errors">
+                                        @foreach (var error in Errors)
+                                        {
+                                            <li class="validation-message">@error</li>
+                                        }
+                                    </ul>
+                                }
                                 <div class="mt-2">
                                     <div class="form-group mb-2">
                                         <label for="title" class="block text-sm font-medium text-gray-700 font-bold">Title</label>
@@ -116,6 +125,8 @@
     [Parameter]
     public ICollection<CategoryViewModel> Categories { get; set; }
 
+    public List<string> Errors { get; set; }
+
     [Parameter]
     public bool IsEdit { get; set; }
 
@@ -129,14 +140,23 @@
 
     public async Task onSaveClick()
     {
-        this.Model = null;
+        bool isValid = true;
         if (IsEdit)
         {
-
+            var updateResponse = await TodoService.UpdateTodo(this.Model);
+            isValid = updateResponse.Success;
+            Errors = updateResponse.ValidationErrors;
         }
         else
         {
+            var createResponse = await TodoService.CreateTodo(this.Model);
+            isValid = createResponse.Success;
+            Errors = createResponse.ValidationErrors;
+        }
 
+        if (isValid)
+        {
+            this.Model = null;
         }
         await this.OnSavelClicked.InvokeAsync(this.Model);
     }

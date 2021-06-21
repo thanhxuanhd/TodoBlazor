@@ -46,12 +46,16 @@ namespace Todo.Application.Features.Todo.Commands.UpdateTodo
                 {
                     updateTodoCommandResponse.ValidationErrors.Add(error.ErrorMessage);
                 }
+                updateTodoCommandResponse.Todo = _mapper.Map<UpdateTodoDto>(todoUpdate);
             }
             else
             {
                 _mapper.Map(request, todoUpdate, typeof(UpdateTodoCommand), typeof(Entities.Todo));
 
                 await _todoRepository.UpdateAsync(todoUpdate);
+                updateTodoCommandResponse.ValidationErrors = new List<string>();
+                updateTodoCommandResponse.Success = true;
+                updateTodoCommandResponse.Todo = _mapper.Map<UpdateTodoDto>(todoUpdate);
             }
 
             return updateTodoCommandResponse;
