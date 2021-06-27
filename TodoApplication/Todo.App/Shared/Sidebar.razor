@@ -18,32 +18,40 @@ else
         <ul class="p-2 space-y-2 flex-1 overflow-auto" style="scrollbar-width: thin;">
             @foreach (var category in Categories)
             {
-            <li id="@category.CategoryId" class="flex">
-                <NavLink class="nav-link flex space-x-4 items-center text-blue-500 p-2 rounded-sm w-full" href="@($"/todos/{category.CategoryId}")" Match="NavLinkMatch.All"
-                         @onclick="() => onChangeCategory(category.CategoryId)">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3 13H11V3H3V13ZM3 21H11V15H3V21ZM13 21H21V11H13V21ZM13 3V9H21V3H13Z" fill="#2F80ED" />
-                    </svg>
-                    <span class="ml-6">
-                        @category.Name
-                    </span>
-                </NavLink>
-                <button class="text-blue-500 focus:outline-none ml-1" title="Edit"
-                        @onclick="@((e)=> HanlderEditCategory(e, category.CategoryId))">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                    </svg>
-                </button>
-                <button class="ml-1 text-red-500 focus:outline-none" title="Delete">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                </button>
-            </li>
+                <li id="@category.CategoryId" class="flex">
+                    <NavLink class="nav-link flex space-x-4 items-center text-blue-500 p-2 rounded-sm w-full" href="@($"/todos/{category.CategoryId}")" Match="NavLinkMatch.All"
+                             @onclick="() => onChangeCategory(category.CategoryId)">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 13H11V3H3V13ZM3 21H11V15H3V21ZM13 21H21V11H13V21ZM13 3V9H21V3H13Z" fill="#2F80ED" />
+                        </svg>
+                        <span class="ml-6">
+                            @category.Name
+                        </span>
+                    </NavLink>
+                    <button class="text-blue-500 focus:outline-none ml-1" title="Edit"
+                            @onclick="@((e)=> HanlderEditCategory(e, category.CategoryId))">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                        </svg>
+                    </button>
+                    @if (category.CanDelete)
+                    {
+                        <button class="ml-1 text-red-500 focus:outline-none" title="Delete" @onclick="@((e)=> HandleDeleteClick(e, category))">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                        </button>
+                    }
+                </li>
             }
         </ul>
     </div>
     <AddEditCategory Model="CategoryModel" IsEdit="IsEdit" OnSavelClicked="HandleSaveCLick" OnCancelClicked="HandleCancelClick" />
+
+    @if (IsDelete)
+    {
+        <DeletePopup Title="@Title" OnYesClicked="HandleDeleteYes" OnNoClicked="HandleDeleteNo"></DeletePopup>
+    }
 }
 
 @code {
@@ -59,6 +67,12 @@ else
     public CategoryViewModel CategoryModel { get; set; }
 
     public bool IsEdit { get; set; }
+
+    public bool IsDelete { get; set; }
+
+    public string Title { get; set; }
+
+    public Guid CategoryId { get; set; }
 
     protected async override Task OnInitializedAsync()
     {
@@ -93,10 +107,33 @@ else
         await this.GetCategories();
     }
 
+    public async Task HandleDeleteClick(MouseEventArgs eventArgs, CategoryViewModel category)
+    {
+        Title = category.Name;
+        CategoryId = category.CategoryId;
+        IsDelete = true;
+    }
+
     public async Task HandleCancelClick()
     {
         CategoryModel = null;
         await this.GetCategories();
+    }
+
+    public async Task HandleDeleteYes()
+    {
+        bool deletedSuccess = await CategoryDataService.DeleteCategory(CategoryId);
+        IsDelete = false;
+        Title = "";
+        CategoryId = Guid.Empty;
+        await this.GetCategories();
+    }
+
+    public void HandleDeleteNo()
+    {
+        IsDelete = false;
+        Title = "";
+        CategoryId = Guid.Empty;
     }
 
 }

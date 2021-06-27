@@ -29,6 +29,8 @@ namespace Todo.Application.Profiles
             CreateMap<Entities.Category, CategoryVm>().ReverseMap();
             CreateMap<Entities.Category, CreateCategoryCommand>().ReverseMap();
             CreateMap<Entities.Category, UpdateCategoryCommand>().ReverseMap();
+            CreateMap<CreateCategoryDto, CreateCategoryCommand>().ReverseMap();
+            CreateMap<UpdateCategoryDto, UpdateCategoryCommand>().ReverseMap();
         }
     }
 }

@@ -45,6 +45,15 @@
                                 <div class="mt-2">
                                     <DataAnnotationsValidator />
                                     <ValidationSummary />
+                                    @if (Errors != null && Errors.Count() > 0)
+                                    {
+                                        <ul class="validation-errors">
+                                            @foreach (var error in Errors)
+                                            {
+                                                <li class="validation-message">@error</li>
+                                            }
+                                        </ul>
+                                    }
                                     <div class="form-group mb-2">
                                         <label for="title" class="block text-sm font-medium text-gray-700 font-bold">Name</label>
                                         <InputText type="text" name="name" id="title"
@@ -62,7 +71,7 @@
                         </button>
                         <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2
                             bg-blue-500 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2
-                                focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm" @onclick="onSaveClick">
+                                focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm" @onclick="@onSaveClick">
                             Save
                         </button>
                     </div>
@@ -94,6 +103,8 @@
     [Parameter]
     public bool IsEdit { get; set; }
 
+    public List<string> Errors { get; set; }
+
     protected override void OnInitialized()
     {
     }
@@ -110,18 +121,21 @@
 
         if (IsEdit)
         {
-            await CategoryDataService.UpdapteCategory(Model);
+            var updateResponse = await CategoryDataService.UpdapteCategory(Model);
+            isValid = updateResponse.Success;
+            Errors = updateResponse.ValidationErrors;
         }
         else
         {
             var createCategoryResponse = await CategoryDataService.CreateCategory(Model);
-
-            if (!createCategoryResponse.Success)
-            {
-
-            }
+            isValid = createCategoryResponse.Success;
+            Errors = createCategoryResponse.ValidationErrors;
         }
-        this.Model = null;
-        await this.OnSavelClicked.InvokeAsync(this.Model);
+
+        if (isValid)
+        {
+            this.Model = null;
+            await this.OnSavelClicked.InvokeAsync(this.Model);
+        }
     }
 }

@@ -9,7 +9,7 @@ using Entities = Todo.Domain.Entities;
 
 namespace Todo.Application.Features.Categories.Commands.DeleteCategory
 {
-    public class DeleteCategoryHandler : IRequestHandler<DeleteCategoryCommand>
+    public class DeleteCategoryHandler : IRequestHandler<DeleteCategoryCommand, bool>
     {
         private readonly IAsyncRepository<Entities.Category> _categoryRepository;
         private readonly IMapper _mapper;
@@ -20,19 +20,27 @@ namespace Todo.Application.Features.Categories.Commands.DeleteCategory
             _mapper = mapper;
         }
 
-        public async Task<Unit> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
         {
-            var categoryToDelete = await _categoryRepository.GetByIdAsync(request.CategoryId);
-
-            if (categoryToDelete == null)
+            bool deletedSuccess = true;
+            try
             {
-                throw new NotFoundException(nameof(Entities.Category), request.CategoryId);
+                var categoryToDelete = await _categoryRepository.GetByIdAsync(request.CategoryId);
+
+                if (categoryToDelete == null)
+                {
+                    throw new NotFoundException(nameof(Entities.Category), request.CategoryId);
+                }
+
+                categoryToDelete.DeletedDate = DateTime.Now;
+                await _categoryRepository.UpdateAsync(categoryToDelete);
+            }
+            catch (Exception ex)
+            {
+                deletedSuccess = false;
             }
 
-            categoryToDelete.DeletedDate = DateTime.Now;
-            await _categoryRepository.UpdateAsync(categoryToDelete);
-
-            return Unit.Value;
+            return deletedSuccess;
         }
     }
 }

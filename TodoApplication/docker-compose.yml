@@ -12,7 +12,7 @@ services:
           - ACCEPT_EULA=Y
         restart: unless-stopped 
         ports:
-          - "5433:1433"
+          - "5432:1433"
     Todo.Api:
         image: ${DOCKER_REGISTRY-}todoapi
         container_name: Api

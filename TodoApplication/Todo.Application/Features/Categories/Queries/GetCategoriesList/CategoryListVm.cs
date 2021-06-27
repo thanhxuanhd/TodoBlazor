@@ -6,5 +6,6 @@ namespace Todo.Application.Features.Categories.Queries.GetCategoriesList
     {
         public Guid CategoryId { get; set; }
         public string Name { get; set; }
+        public bool CanDelete { get; set; }
     }
 }

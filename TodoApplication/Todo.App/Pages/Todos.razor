@@ -163,9 +163,14 @@ else
         IsDelete = true;
     }
 
-    public void HandleDeleteYes()
+    public async Task HandleDeleteYes()
     {
-
+        bool deletedSuccess = await TodoDataService.DeletedTodo(TodoId);
+        IsDelete = false;
+        Title = "";
+        TodoId = Guid.Empty;
+        await GetTodos();
+        StateHasChanged();
     }
 
     public void HandleDeleteNo()

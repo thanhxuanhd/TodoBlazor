@@ -7,5 +7,6 @@ namespace Todo.Application.Features.Categories.Commands.UpdateCategory
         public UpdateCategoryCommandResponse() : base()
         {
         }
+        public UpdateCategoryDto Category { get; set; }
     }
 }

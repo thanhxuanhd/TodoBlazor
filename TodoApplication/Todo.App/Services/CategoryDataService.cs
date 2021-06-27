@@ -28,6 +28,12 @@ namespace Todo.App.Services
             return mapCategoryResponse;
         }
 
+        public async Task<bool> DeleteCategory(Guid categoryId)
+        {
+            var deletedSuccess = await _client.DeleteCategoryAsync(categoryId);
+            return deletedSuccess;
+        }
+
         public async Task<List<CategoryViewModel>> GetAllCategories()
         {
             var allCategories = await _client.GetAllCategoriesAsync();
@@ -42,10 +48,11 @@ namespace Todo.App.Services
             return _mapper.Map<CategoryViewModel>(category);
         }
 
-        public async Task UpdapteCategory(CategoryViewModel category)
+        public async Task<UpdateCategoryReponse> UpdapteCategory(CategoryViewModel category)
         {
             var categoryDto = _mapper.Map<UpdateCategoryCommand>(category);
-            await _client.UpdateCategoryAsync(categoryDto);
+            var updateCategoryResponse = await _client.UpdateCategoryAsync(categoryDto);
+            return _mapper.Map<UpdateCategoryReponse>(updateCategoryResponse);
         }
     }
 }

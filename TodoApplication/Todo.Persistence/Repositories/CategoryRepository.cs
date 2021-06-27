@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using Todo.Application.Contracts.Persistence;
+using Todo.Domain.Entities;
 using Entities = Todo.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Todo.Persistence.Repositories
 {
@@ -16,6 +18,11 @@ namespace Todo.Persistence.Repositories
             .Any(x => x.Name.Equals(name));
 
             return isDuplicate;
+        }
+
+        public IQueryable<Category> GetAll()
+        {
+            return _dbContext.Categories;
         }
     }
 }

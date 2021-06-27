@@ -14,6 +14,8 @@ namespace Todo.App.Contracts
 
         Task<CreateCategoryResponse> CreateCategory(CategoryViewModel category);
 
-        Task UpdapteCategory(CategoryViewModel category);
+        Task<UpdateCategoryReponse> UpdapteCategory(CategoryViewModel category);
+
+        Task<bool> DeleteCategory(Guid categoryId);
     }
 }

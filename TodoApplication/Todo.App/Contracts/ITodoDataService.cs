@@ -16,5 +16,7 @@ namespace Todo.App.Contracts
         public Task<CreateTodoResponse> CreateTodo(TodoViewModel todo);
 
         public Task<UpdateTodoResponse> UpdateTodo(TodoViewModel todo);
+
+        public Task<bool> DeletedTodo(Guid todoId);
     }
 }

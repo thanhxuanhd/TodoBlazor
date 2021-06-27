@@ -34,6 +34,7 @@ namespace Todo.Application.Features.Categories.Commands.CreateCategory
                 {
                     createCategoryCommandResponse.ValidationErrors.Add(error.ErrorMessage);
                 }
+                createCategoryCommandResponse.Category = _mapper.Map<CreateCategoryDto>(request);
             }
             if (createCategoryCommandResponse.Success)
             {

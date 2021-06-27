@@ -23,6 +23,12 @@ namespace Todo.App.Services
             return mapCreateTodoResponse;
         }
 
+        public async Task<bool> DeletedTodo(Guid todoId)
+        {
+            var deletedSuccess = await _client.DeleteTodoAsync(todoId);
+            return deletedSuccess;
+        }
+
         public async Task<TodoViewModel> GetTodo(Guid todoId)
         {
             var todo = await _client.GetTodoAsync(todoId);

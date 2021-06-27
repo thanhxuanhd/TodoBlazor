@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using Todo.Application.Contracts;
 using Todo.Application.Features.Todo.Commands.CreateTodo;
+using Todo.Application.Features.Todo.Commands.DeleteTodo;
 using Todo.Application.Features.Todo.Commands.UpdateTodo;
 using Todo.Application.Features.Todo.Queries.GetTodoDetail;
 using Todo.Application.Features.Todo.Queries.GetTodoList;
@@ -63,12 +64,10 @@ namespace Todo.API.Controllers
         }
 
         [HttpDelete("{id}", Name = "DeleteTodo")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesDefaultResponseType]
-        public IActionResult DeleteTodo(Guid id)
+        public async Task<ActionResult<bool>> DeleteTodo(Guid id)
         {
-            return Ok(id);
+            var deletedSuccess = await _mediator.Send(new DeletedTodoCommand() { TodoId = id });
+            return Ok(deletedSuccess);
         }
     }
 }

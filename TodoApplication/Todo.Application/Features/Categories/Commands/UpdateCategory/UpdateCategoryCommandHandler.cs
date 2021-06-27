@@ -42,6 +42,7 @@ namespace Todo.Application.Features.Categories.Commands.UpdateCategory
                 {
                     updateCategoryResponse.ValidationErrors.Add(error.ErrorMessage);
                 }
+                updateCategoryResponse.Category = _mapper.Map<UpdateCategoryDto>(request);
             }
             else
             {

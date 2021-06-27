@@ -13,8 +13,6 @@ namespace Todo.Application.Features.Todo.Commands.UpdateTodo
                .MaximumLength(1000).WithMessage("{PropertyName} must not exceed 1000 characters.");
 
             RuleFor(p => p.Description)
-                 .NotEmpty().WithMessage("{PropertyName} is required.")
-                 .NotNull()
                  .MaximumLength(5000).WithMessage("{PropertyName} must not exceed 1000 characters.");
 
             RuleFor(p => p.TodoId)

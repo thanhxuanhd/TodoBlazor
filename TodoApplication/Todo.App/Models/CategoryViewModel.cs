@@ -9,5 +9,7 @@ namespace Todo.App.Models
 
         [Required]
         public string Name { get; set; }
+
+        public bool CanDelete { get; set; }
     }
 }
