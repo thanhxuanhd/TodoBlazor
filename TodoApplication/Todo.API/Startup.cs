@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Todo.API.Middleware;
 using Todo.Application;
 using Todo.Persistence;
 
@@ -43,6 +44,8 @@ namespace Todo.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCustomExceptionHandler();
 
             app.UseAuthorization();
 
