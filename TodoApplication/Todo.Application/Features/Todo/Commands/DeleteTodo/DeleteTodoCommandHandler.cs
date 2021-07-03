@@ -35,7 +35,7 @@ namespace Todo.Application.Features.Todo.Commands.DeleteTodo
                     await _todoRepository.UpdateAsync(todo);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 deleteTodoSucces = false;
             }

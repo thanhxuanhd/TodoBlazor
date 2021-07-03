@@ -35,7 +35,7 @@ namespace Todo.Application.Features.Categories.Commands.DeleteCategory
                 categoryToDelete.DeletedDate = DateTime.Now;
                 await _categoryRepository.UpdateAsync(categoryToDelete);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 deletedSuccess = false;
             }
