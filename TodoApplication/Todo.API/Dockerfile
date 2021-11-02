@@ -1,15 +1,16 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/aspnet:5.0-buster-slim AS base
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
+EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["Todo.API/Todo.API.csproj", "Todo.API/"]
-COPY ["Todo.Core/Todo.Domain.csproj", "Todo.Core/"]
-COPY ["Todo.Application/Todo.Application.csproj", "Todo.Application/"]
 COPY ["Todo.Persistence/Todo.Persistence.csproj", "Todo.Persistence/"]
+COPY ["Todo.Application/Todo.Application.csproj", "Todo.Application/"]
+COPY ["Todo.Core/Todo.Domain.csproj", "Todo.Core/"]
 RUN dotnet restore "Todo.API/Todo.API.csproj"
 COPY . .
 WORKDIR "/src/Todo.API"
