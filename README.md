@@ -31,6 +31,31 @@ docker-compose build
 docker-compose up
 ```
 
+Go to address
+
+* Todo API - http://localhost:5102
+
+* Todo Blazor App - http://localhost:5103
+
+## Run by Tye command
+
+1. Install Tye command at [link](https://github.com/dotnet/tye)
+
+2. Go to folder cointain file tye.yaml
+
+3. Open command or powershell. Run the command as below:
+```BASH
+tye run
+```
+4. Go to address
+
+* Tye Dashboard - http://localhost:8000
+
+* Todo API - http://localhost:8001
+
+* Todo Blazor App - http://localhost:8002
+
+
 ## Acess to application
 
 - API URL: http://localhost:5102 or http://host.docker.internal:5102

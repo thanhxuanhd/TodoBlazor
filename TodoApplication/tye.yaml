@@ -1,0 +1,32 @@
+# tye application configuration file
+# read all about it at https://github.com/dotnet/tye
+#
+# when you've given us a try, we'd love to know what you think:
+#    https://aka.ms/AA7q20u
+#
+name: todo
+services:
+
+- name: sqldata
+  image: mcr.microsoft.com/mssql/server:2019-latest
+  env:
+    - name: SA_PASSWORD
+      value: Pass@word
+    - name: ACCEPT_EULA
+      value: "Y"
+  bindings:
+    - port: 1433
+
+- name: todo-api
+  project: Todo.API/Todo.API.csproj
+  env_file:
+    - .env
+  bindings:
+    - port: 8001
+
+- name: todo-app
+  project: Todo.App/Todo.App.csproj
+  env_file:
+    - .env
+  bindings:
+    - port: 8002
