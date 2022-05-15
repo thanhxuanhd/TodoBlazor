@@ -3,7 +3,6 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using Todo.Application.Contracts.Persistence;
 using Todo.Domain.Entities;
 using Todo.Persistence;
@@ -13,7 +12,7 @@ namespace Todo.Application.UnitTests.Mocks
 {
     public class RepositoryMock
     {
-        public static Guid CategoryIdNeed = Guid.Empty;
+        private static Guid CategoryIdNeed { get; set; } = Guid.NewGuid();
 
         public static Mock<ICategoryRepository> MockCategoryRepository()
         {
@@ -35,6 +34,12 @@ namespace Todo.Application.UnitTests.Mocks
             var mock = new Mock<ICategoryRepository>();
 
             mock.Setup(repo => repo.GetAll()).Returns(mockSetCategory.Object);
+
+            mock.Setup(repo => repo.AddAsync(It.IsAny<Category>())).ReturnsAsync((Category category) =>
+            {
+                category.CategoryId = Guid.NewGuid();
+                return category;
+            });
 
             return mock;
         }
@@ -78,12 +83,11 @@ namespace Todo.Application.UnitTests.Mocks
             Category category = new()
             {
                 Name = "My Todo",
-                CategoryId = Guid.NewGuid(),
+                CategoryId = CategoryIdNeed,
                 CreatedDate = DateTime.UtcNow,
                 Todos = new List<Todo.Domain.Entities.Todo>()
             };
 
-            CategoryIdNeed = category.CategoryId;
 
             Category category2 = new()
             {
@@ -105,6 +109,11 @@ namespace Todo.Application.UnitTests.Mocks
             List<Todo.Domain.Entities.Todo> todos = new();
 
             return todos;
+        }
+
+        public static Guid GetCategoryId()
+        {
+            return CategoryIdNeed;
         }
 
     }

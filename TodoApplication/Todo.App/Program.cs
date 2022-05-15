@@ -1,20 +1,59 @@
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Net.Http;
+using System.Reflection;
+using Todo.App.Contracts;
+using Todo.App.Services;
 
-namespace Todo.App
+var builder = WebApplication.CreateBuilder(args);
+ConfigureServices();
+
+var app = builder.Build();
+
+Configure();
+
+app.Run();
+
+void ConfigureServices()
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+    builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+    builder.Services.AddRazorPages();
+    builder.Services.AddServerSideBlazor();
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+    var apiURL = builder.Configuration["APIConfiguration:Url"];
+    builder.Services.AddSingleton(new HttpClient
+    {
+        BaseAddress = new Uri(apiURL)
+    });
+
+    builder.Services.AddHttpClient<IClient, Client>(client => client.BaseAddress = new Uri(apiURL));
+    builder.Services.AddSingleton<ICategoryDataService, CategoryDataService>();
+    builder.Services.AddSingleton<ITodoDataService, TodoDataService>();
+}
+
+void Configure()
+{
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseDeveloperExceptionPage();
     }
+    else
+    {
+        app.UseExceptionHandler("/Error");
+        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+        app.UseHsts();
+    }
+
+    app.UseHttpsRedirection();
+    app.UseStaticFiles();
+
+    app.UseRouting();
+
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapBlazorHub();
+        endpoints.MapFallbackToPage("/_Host");
+    });
 }

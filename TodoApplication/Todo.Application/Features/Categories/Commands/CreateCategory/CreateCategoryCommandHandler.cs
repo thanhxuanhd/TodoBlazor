@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Todo.Application.Contracts.Persistence;
@@ -29,13 +28,13 @@ namespace Todo.Application.Features.Categories.Commands.CreateCategory
             if (validationResult.Errors.Count > 0)
             {
                 createCategoryCommandResponse.Success = false;
-                createCategoryCommandResponse.ValidationErrors = new List<string>();
                 foreach (var error in validationResult.Errors)
                 {
                     createCategoryCommandResponse.ValidationErrors.Add(error.ErrorMessage);
                 }
                 createCategoryCommandResponse.Category = _mapper.Map<CreateCategoryDto>(request);
             }
+
             if (createCategoryCommandResponse.Success)
             {
                 var category = new Category() { Name = request.Name };

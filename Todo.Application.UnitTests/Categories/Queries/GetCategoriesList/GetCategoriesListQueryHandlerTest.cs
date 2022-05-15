@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
 using FluentAssertions;
 using Moq;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Todo.Application.Contracts.Persistence;
@@ -33,7 +30,7 @@ namespace Todo.Application.UnitTests.Categories.Queries.GetCategoriesList
         }
 
         [Fact]
-        public async Task Get_All_Categories_Sucess()
+        public async Task Handle_GetAllCategories_Sucess()
         {
             var handler = new GetCategoriesListQueryHandler(_mapper, _mockCategoryRepository.Object);
 
