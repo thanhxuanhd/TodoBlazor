@@ -2,10 +2,9 @@
 using System;
 using Todo.Application.Features.Todo.Queries.GetTodoList;
 
-namespace Todo.Application.Features.Todo.Queries.GetTodoDetail
+namespace Todo.Application.Features.Todo.Queries.GetTodoDetail;
+
+public class GetTodoDetailQuery : IRequest<TodoVm>
 {
-    public class GetTodoDetailQuery : IRequest<TodoVm>
-    {
-        public Guid TodoId { get; set; }
-    }
+    public Guid TodoId { get; set; }
 }

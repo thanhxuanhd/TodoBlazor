@@ -7,32 +7,31 @@ using Todo.Application.Contracts.Persistence;
 using Todo.Application.Features.Todo.Queries.GetTodoList;
 using Entities = Todo.Domain.Entities;
 
-namespace Todo.Application.Features.Todo.Queries.GetTodoDetail
+namespace Todo.Application.Features.Todo.Queries.GetTodoDetail;
+
+public class GetTodoDetailQueryHandler : IRequestHandler<GetTodoDetailQuery, TodoVm>
 {
-    public class GetTodoDetailQueryHandler : IRequestHandler<GetTodoDetailQuery, TodoVm>
+    public readonly IAsyncRepository<Entities.Todo> _todoRepository;
+    public readonly IMapper _mapper;
+
+    public GetTodoDetailQueryHandler(IAsyncRepository<Entities.Todo> todoRepository, IMapper mapper)
     {
-        public readonly IAsyncRepository<Entities.Todo> _todoRepository;
-        public readonly IMapper _mapper;
+        _mapper = mapper;
+        _todoRepository = todoRepository;
+    }
 
-        public GetTodoDetailQueryHandler(IAsyncRepository<Entities.Todo> todoRepository, IMapper mapper)
+    public async Task<TodoVm> Handle(GetTodoDetailQuery request, CancellationToken cancellationToken)
+    {
+        var todo = await _todoRepository.GetByIdAsync(request.TodoId);
+
+        if (todo == null)
         {
-            _mapper = mapper;
-            _todoRepository = todoRepository;
+            throw new Exception("Todo not found");
         }
 
-        public async Task<TodoVm> Handle(GetTodoDetailQuery request, CancellationToken cancellationToken)
-        {
-            var todo = await _todoRepository.GetByIdAsync(request.TodoId);
+        todo.Category = new Entities.Category();
+        var todoVm = _mapper.Map<TodoVm>(todo);
 
-            if (todo == null)
-            {
-                throw new Exception("Todo not found");
-            }
-
-            todo.Category = new Entities.Category();
-            var todoVm = _mapper.Map<TodoVm>(todo);
-
-            return todoVm;
-        }
+        return todoVm;
     }
 }

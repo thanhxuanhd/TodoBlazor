@@ -3,20 +3,19 @@ using System;
 using System.Collections.Generic;
 
 
-namespace Todo.Application.Exceptions
+namespace Todo.Application.Exceptions;
+
+public class ValidationException : ApplicationException
 {
-    public class ValidationException : ApplicationException
+    public List<string> ValdationErrors { get; set; }
+
+    public ValidationException(ValidationResult validationResult)
     {
-        public List<string> ValdationErrors { get; set; }
+        ValdationErrors = new List<string>();
 
-        public ValidationException(ValidationResult validationResult)
+        foreach (var validationError in validationResult.Errors)
         {
-            ValdationErrors = new List<string>();
-
-            foreach (var validationError in validationResult.Errors)
-            {
-                ValdationErrors.Add(validationError.ErrorMessage);
-            }
+            ValdationErrors.Add(validationError.ErrorMessage);
         }
     }
 }

@@ -1,10 +1,9 @@
 ﻿using MediatR;
 using System;
 
-namespace Todo.Application.Features.Todo.Commands.DeleteTodo
+namespace Todo.Application.Features.Todo.Commands.DeleteTodo;
+
+public class DeletedTodoCommand : IRequest<bool>
 {
-    public class DeletedTodoCommand : IRequest<bool>
-    {
-        public Guid TodoId { get; set; }
-    }
+    public Guid TodoId { get; set; }
 }

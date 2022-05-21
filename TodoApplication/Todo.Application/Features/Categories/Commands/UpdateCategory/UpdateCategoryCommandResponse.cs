@@ -1,12 +1,12 @@
 ﻿using Todo.Application.Responses;
 
-namespace Todo.Application.Features.Categories.Commands.UpdateCategory
+namespace Todo.Application.Features.Categories.Commands.UpdateCategory;
+
+public class UpdateCategoryCommandResponse : BaseResponse
 {
-    public class UpdateCategoryCommandResponse : BaseResponse
+    public UpdateCategoryCommandResponse() : base()
     {
-        public UpdateCategoryCommandResponse() : base()
-        {
-        }
-        public UpdateCategoryDto Category { get; set; }
     }
+
+    public UpdateCategoryDto Category { get; set; }
 }

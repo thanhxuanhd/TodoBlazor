@@ -1,23 +1,50 @@
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using Todo.API.Middleware;
+using Todo.Application;
 using Todo.Persistence;
 
-namespace Todo.API
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            var host = CreateHostBuilder(args).Build();
-            host.AddPersistenceSeedData();
-            host.Run();
-        }
+var builder = WebApplication.CreateBuilder(args);
+ConfigureServices();
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+var app = builder.Build();
+
+Configure();
+
+app.Run();
+
+void ConfigureServices()
+{
+    builder.Services.AddApplicationServices();
+    builder.Services.AddPersistenceServices(builder.Configuration);
+    builder.Services.AddControllers();
+    builder.Services.AddSwaggerGen(c =>
+    {
+        c.SwaggerDoc("v1", new OpenApiInfo { Title = "Todo.API", Version = "v1" });
+    });
+}
+
+void Configure()
+{
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseDeveloperExceptionPage();
+        app.UseSwagger();
+        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Todo.API v1"));
     }
+
+    app.UseHttpsRedirection();
+
+    app.UseRouting();
+
+    app.UseCustomExceptionHandler();
+
+    app.UseAuthorization();
+
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapControllers();
+    });
 }

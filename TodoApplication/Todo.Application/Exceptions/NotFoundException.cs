@@ -1,12 +1,11 @@
 ﻿using System;
 
-namespace Todo.Application.Exceptions
+namespace Todo.Application.Exceptions;
+
+public class NotFoundException : ApplicationException
 {
-    public class NotFoundException : ApplicationException
+    public NotFoundException(string name, object key)
+        : base($"{name} ({key}) is not found")
     {
-        public NotFoundException(string name, object key)
-            : base($"{name} ({key}) is not found")
-        {
-        }
     }
 }

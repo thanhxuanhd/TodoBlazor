@@ -1,9 +1,8 @@
 ﻿using System.Net.Http;
 
-namespace Todo.App.Services
+namespace Todo.App.Services;
+
+public partial interface IClient
 {
-    public partial interface IClient
-    {
-        public HttpClient HttpClient { get; }
-    }
+    public HttpClient HttpClient { get; }
 }

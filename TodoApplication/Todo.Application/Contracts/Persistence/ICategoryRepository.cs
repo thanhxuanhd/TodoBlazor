@@ -1,12 +1,11 @@
-﻿using Entities = Todo.Domain.Entities;
-using System.Linq;
+﻿using System.Linq;
+using Entities = Todo.Domain.Entities;
 
-namespace Todo.Application.Contracts.Persistence
+namespace Todo.Application.Contracts.Persistence;
+
+public interface ICategoryRepository : IAsyncRepository<Entities.Category>
 {
-    public interface ICategoryRepository : IAsyncRepository<Entities.Category>
-    {
-        bool CheckCategoryDuplicate(string name);
+    bool CheckCategoryDuplicate(string name);
 
-        IQueryable<Entities.Category> GetAll();
-    }
+    IQueryable<Entities.Category> GetAll();
 }

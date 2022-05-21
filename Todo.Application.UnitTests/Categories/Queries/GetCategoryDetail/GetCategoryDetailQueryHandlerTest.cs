@@ -12,60 +12,59 @@ using Todo.Application.UnitTests.Mocks;
 using Todo.Domain.Entities;
 using Xunit;
 
-namespace Todo.Application.UnitTests.Categories.Queries.GetCategoryDetail
+namespace Todo.Application.UnitTests.Categories.Queries.GetCategoryDetail;
+
+public class GetCategoryDetailQueryHandlerTest
 {
-    public class GetCategoryDetailQueryHandlerTest
+    private readonly IMapper _mapper;
+    public readonly Mock<IAsyncRepository<Category>> _mockCategoryRepository;
+
+    public GetCategoryDetailQueryHandlerTest()
     {
-        private readonly IMapper _mapper;
-        public readonly Mock<IAsyncRepository<Category>> _mockCategoryRepository;
+        _mockCategoryRepository = RepositoryMock.MockAsyncCategoryRepository();
 
-        public GetCategoryDetailQueryHandlerTest()
+        var configurationProvider = new MapperConfiguration(cfg =>
         {
-            _mockCategoryRepository = RepositoryMock.MockAsyncCategoryRepository();
+            cfg.AddProfile<MappingProfile>();
+        });
+        _mapper = new Mapper(configurationProvider);
+    }
 
-            var configurationProvider = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<MappingProfile>();
-            });
-            _mapper = new Mapper(configurationProvider);
-        }
+    [Fact]
+    public async Task Handle_GetCategoryDetailById_Success()
+    {
+        // Arrange
+        var handler = new GetCategoryDetailQueryHandler(_mockCategoryRepository.Object, _mapper);
+        var categoryId = RepositoryMock.GetCategoryId();
 
-        [Fact]
-        public async Task Handle_GetCategoryDetailById_Success()
+        // Act
+        var result = await handler.Handle(new GetCategoryDetailQuery()
         {
-            // Arrange
-            var handler = new GetCategoryDetailQueryHandler(_mockCategoryRepository.Object, _mapper);
-            var categoryId = RepositoryMock.GetCategoryId();
+            CategoryId = categoryId,
+        }, CancellationToken.None);
 
-            // Act
+        // Assert
+        result.Should().NotBe(null);
+        result.CategoryId.Should().Be(categoryId);
+    }
+
+    [Fact]
+    public Task Handle_GetCategoryDetailById_NotFound()
+    {
+        // Arrange
+        var handler = new GetCategoryDetailQueryHandler(_mockCategoryRepository.Object, _mapper);
+
+        // Act
+        Func<Task> action = async () =>
+        {
             var result = await handler.Handle(new GetCategoryDetailQuery()
             {
-                CategoryId = categoryId,
+                CategoryId = Guid.Empty
             }, CancellationToken.None);
+        };
 
-            // Assert
-            result.Should().NotBe(null);
-            result.CategoryId.Should().Be(categoryId);
-        }
-
-        [Fact]
-        public Task Handle_GetCategoryDetailById_NotFound()
-        {
-            // Arrange
-            var handler = new GetCategoryDetailQueryHandler(_mockCategoryRepository.Object, _mapper);
-
-            // Act
-            Func<Task> action = async () =>
-            {
-                var result = await handler.Handle(new GetCategoryDetailQuery()
-                {
-                    CategoryId = Guid.Empty
-                }, CancellationToken.None);
-            };
-
-            // Assert
-            action.Should().ThrowAsync<NotFoundException>();
-            return Task.CompletedTask;
-        }
+        // Assert
+        action.Should().ThrowAsync<NotFoundException>();
+        return Task.CompletedTask;
     }
 }

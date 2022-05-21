@@ -1,49 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Todo.App.Models
+namespace Todo.App.Models;
+
+public class PaginatedTodoListViewModel
 {
-    public class PaginatedTodoListViewModel
+    public PaginatedTodoListViewModel()
     {
-        public PaginatedTodoListViewModel()
+    }
+
+    public int PageIndex { get; set; }
+    public int TotalPages { get; set; }
+
+    public int TotalRecords { get; set; }
+
+    public List<TodoViewModel> Items { get; set; }
+
+    public PaginatedTodoListViewModel(List<TodoViewModel> items, int count, int pageIndex, int pageSize)
+    {
+        PageIndex = pageIndex;
+        TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+        TotalRecords = count;
+
+        Items = new List<TodoViewModel>();
+        Items.AddRange(items);
+    }
+
+    public bool HasPreviousPage
+    {
+        get
         {
+            return (PageIndex > 1);
         }
+        set { }
+    }
 
-        public int PageIndex { get; set; }
-        public int TotalPages { get; set; }
-
-        public int TotalRecords { get; set; }
-
-        public List<TodoViewModel> Items { get; set; }
-
-        public PaginatedTodoListViewModel(List<TodoViewModel> items, int count, int pageIndex, int pageSize)
+    public bool HasNextPage
+    {
+        get
         {
-            PageIndex = pageIndex;
-            TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-            TotalRecords = count;
-
-            Items = new List<TodoViewModel>();
-            Items.AddRange(items);
+            return (PageIndex < TotalPages);
         }
-
-        public bool HasPreviousPage
-        {
-            get
-            {
-                return (PageIndex > 1);
-            }
-            set { }
-        }
-
-        public bool HasNextPage
-        {
-            get
-            {
-                return (PageIndex < TotalPages);
-            }
-            set { }
-        }
+        set { }
     }
 }

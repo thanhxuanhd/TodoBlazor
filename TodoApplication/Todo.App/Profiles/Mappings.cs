@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using Todo.App.Models;
+using Todo.App.Services;
 
-namespace Todo.App.Services.Profiles
+namespace Todo.App.Profiles
 {
     public class Mappings : Profile
     {

@@ -6,41 +6,40 @@ using System;
 using Todo.Application.Contracts.Persistence;
 using Todo.Persistence.Repositories;
 
-namespace Todo.Persistence
+namespace Todo.Persistence;
+
+public static class PersistenceServiceRegistration
 {
-    public static class PersistenceServiceRegistration
+    public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
     {
-        public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
+        services.AddDbContext<TodoDbContext>(options =>
+            options.UseSqlServer(configuration.GetConnectionString("TodoConnectionString")));
+
+        services.AddScoped(typeof(IAsyncRepository<>), typeof(BaseRepository<>));
+
+        services.AddScoped<ITodoRepository, TodoRepository>();
+
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
+        return services;
+    }
+
+    public static IHost AddPersistenceSeedData(this IHost webHost)
+    {
+        using (var scope = webHost.Services.CreateScope())
         {
-            services.AddDbContext<TodoDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("TodoConnectionString")));
+            var services = scope.ServiceProvider;
 
-            services.AddScoped(typeof(IAsyncRepository<>), typeof(BaseRepository<>));
-
-            services.AddScoped<ITodoRepository, TodoRepository>();
-
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
-            return services;
-        }
-
-        public static IHost AddPersistenceSeedData(this IHost webHost)
-        {
-            using (var scope = webHost.Services.CreateScope())
+            try
             {
-                var services = scope.ServiceProvider;
-
-                try
-                {
-                    var dbContext = services.GetRequiredService<TodoDbContext>();
-                    TodoDbInitializer.Initializer(dbContext);
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                var dbContext = services.GetRequiredService<TodoDbContext>();
+                TodoDbInitializer.Initializer(dbContext);
             }
-
-            return webHost;
+            catch (Exception)
+            {
+                throw;
+            }
         }
+
+        return webHost;
     }
 }

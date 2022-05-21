@@ -1,7 +1,6 @@
-﻿namespace Todo.App.Models
+﻿namespace Todo.App.Models;
+
+public class CreateTodoResponse : BaseResponse
 {
-    public class CreateTodoResponse : BaseResponse
-    {
-        public TodoViewModel Todo { get; set; }
-    }
+    public TodoViewModel Todo { get; set; }
 }

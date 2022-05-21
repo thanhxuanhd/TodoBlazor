@@ -6,45 +6,44 @@ using System.Threading.Tasks;
 using Todo.Application.Contracts.Persistence;
 using Entities = Todo.Domain.Entities;
 
-namespace Todo.Application.Features.Todo.Commands.CreateTodo
+namespace Todo.Application.Features.Todo.Commands.CreateTodo;
+
+public class CreateTodoCommandHandler : IRequestHandler<CreateTodoCommand, CreateTodoCommandResponse>
 {
-    public class CreateTodoCommandHandler : IRequestHandler<CreateTodoCommand, CreateTodoCommandResponse>
+    private readonly IAsyncRepository<Entities.Todo> _todoRepository;
+    private readonly IMapper _mapper;
+
+    public CreateTodoCommandHandler(IAsyncRepository<Entities.Todo> todoRepository, IMapper mapper)
     {
-        private readonly IAsyncRepository<Entities.Todo> _todoRepository;
-        private readonly IMapper _mapper;
+        _todoRepository = todoRepository;
+        _mapper = mapper;
+    }
 
-        public CreateTodoCommandHandler(IAsyncRepository<Entities.Todo> todoRepository, IMapper mapper)
+    public async Task<CreateTodoCommandResponse> Handle(CreateTodoCommand request, CancellationToken cancellationToken)
+    {
+        var createTodoCommandResponse = new CreateTodoCommandResponse();
+
+        var validator = new CreateTodoCommandValidator();
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+        if (validationResult.Errors.Count > 0)
         {
-            _todoRepository = todoRepository;
-            _mapper = mapper;
+            createTodoCommandResponse.Success = false;
+            createTodoCommandResponse.ValidationErrors = new List<string>();
+            foreach (var error in validationResult.Errors)
+            {
+                createTodoCommandResponse.ValidationErrors.Add(error.ErrorMessage);
+            }
+            createTodoCommandResponse.Todo = _mapper.Map<CreateTodoDto>(request);
         }
 
-        public async Task<CreateTodoCommandResponse> Handle(CreateTodoCommand request, CancellationToken cancellationToken)
+        if (createTodoCommandResponse.Success)
         {
-            var createTodoCommandResponse = new CreateTodoCommandResponse();
-
-            var validator = new CreateTodoCommandValidator();
-            var validationResult = await validator.ValidateAsync(request, cancellationToken);
-
-            if (validationResult.Errors.Count > 0)
-            {
-                createTodoCommandResponse.Success = false;
-                createTodoCommandResponse.ValidationErrors = new List<string>();
-                foreach (var error in validationResult.Errors)
-                {
-                    createTodoCommandResponse.ValidationErrors.Add(error.ErrorMessage);
-                }
-                createTodoCommandResponse.Todo = _mapper.Map<CreateTodoDto>(request);
-            }
-
-            if (createTodoCommandResponse.Success)
-            {
-                var todo = _mapper.Map<Entities.Todo>(request);
-                todo = await _todoRepository.AddAsync(todo);
-                createTodoCommandResponse.Todo = _mapper.Map<CreateTodoDto>(todo);
-            }
-
-            return createTodoCommandResponse;
+            var todo = _mapper.Map<Entities.Todo>(request);
+            todo = await _todoRepository.AddAsync(todo);
+            createTodoCommandResponse.Todo = _mapper.Map<CreateTodoDto>(todo);
         }
+
+        return createTodoCommandResponse;
     }
 }

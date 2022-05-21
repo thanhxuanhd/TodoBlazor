@@ -1,15 +1,14 @@
 ﻿using System.Net.Http;
 
-namespace Todo.App.Services
+namespace Todo.App.Services;
+
+public partial class Client : IClient
 {
-    public partial class Client : IClient
+    public HttpClient HttpClient
     {
-        public HttpClient HttpClient
+        get
         {
-            get
-            {
-                return _httpClient;
-            }
+            return _httpClient;
         }
     }
 }

@@ -1,7 +1,6 @@
-﻿namespace Todo.App.Models
+﻿namespace Todo.App.Models;
+
+public class UpdateCategoryReponse : BaseResponse
 {
-    public class UpdateCategoryReponse : BaseResponse
-    {
-        public CategoryViewModel Category { get; set; }
-    }
+    public CategoryViewModel Category { get; set; }
 }

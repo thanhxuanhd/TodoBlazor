@@ -1,47 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Todo.Application.Contracts
+namespace Todo.Application.Contracts;
+
+public class PaginatedList<T>
 {
-    public class PaginatedList<T>
+    public PaginatedList()
     {
-        public PaginatedList()
+    }
+
+    public int PageIndex { get; set; }
+    public int TotalPages { get; set; }
+
+    public int TotalRecords { get; set; }
+
+    public List<T> Items { get; set; }
+
+    public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
+    {
+        PageIndex = pageIndex;
+        TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+
+        TotalRecords = count;
+        Items = new List<T>();
+        Items.AddRange(items);
+    }
+
+    public bool HasPreviousPage
+    {
+        get
         {
+            return (PageIndex > 1);
         }
+        set { }
+    }
 
-        public int PageIndex { get; set; }
-        public int TotalPages { get; set; }
-
-        public int TotalRecords { get; set; }
-
-        public List<T> Items { get; set; }
-
-        public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
+    public bool HasNextPage
+    {
+        get
         {
-            PageIndex = pageIndex;
-            TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-
-            TotalRecords = count;
-            Items = new List<T>();
-            Items.AddRange(items);
+            return (PageIndex < TotalPages);
         }
-
-        public bool HasPreviousPage
-        {
-            get
-            {
-                return (PageIndex > 1);
-            }
-            set { }
-        }
-
-        public bool HasNextPage
-        {
-            get
-            {
-                return (PageIndex < TotalPages);
-            }
-            set { }
-        }
+        set { }
     }
 }

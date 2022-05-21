@@ -10,35 +10,34 @@ using Todo.Application.Profiles;
 using Todo.Application.UnitTests.Mocks;
 using Xunit;
 
-namespace Todo.Application.UnitTests.Categories.Queries.GetCategoriesList
+namespace Todo.Application.UnitTests.Categories.Queries.GetCategoriesList;
+
+public class GetCategoriesListQueryHandlerTest
 {
-    public class GetCategoriesListQueryHandlerTest
+    private readonly IMapper _mapper;
+    private readonly Mock<ICategoryRepository> _mockCategoryRepository;
+
+    public GetCategoriesListQueryHandlerTest()
     {
-        private readonly IMapper _mapper;
-        private readonly Mock<ICategoryRepository> _mockCategoryRepository;
+        _mockCategoryRepository = RepositoryMock.MockCategoryRepository();
 
-        public GetCategoriesListQueryHandlerTest()
+        var configurationProvider = new MapperConfiguration(cfg =>
         {
-            _mockCategoryRepository = RepositoryMock.MockCategoryRepository();
+            cfg.AddProfile<MappingProfile>();
+        });
 
-            var configurationProvider = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<MappingProfile>();
-            });
+        _mapper = new Mapper(configurationProvider);
+    }
 
-            _mapper = new Mapper(configurationProvider);
-        }
+    [Fact]
+    public async Task Handle_GetAllCategories_Sucess()
+    {
+        var handler = new GetCategoriesListQueryHandler(_mapper, _mockCategoryRepository.Object);
 
-        [Fact]
-        public async Task Handle_GetAllCategories_Sucess()
-        {
-            var handler = new GetCategoriesListQueryHandler(_mapper, _mockCategoryRepository.Object);
+        var result = await handler.Handle(new GetCategoriesListQuery(), CancellationToken.None);
 
-            var result = await handler.Handle(new GetCategoriesListQuery(), CancellationToken.None);
+        result.Should().BeOfType<List<CategoryListVm>>();
 
-            result.Should().BeOfType<List<CategoryListVm>>();
-
-            result.Count.Should().Be(2);
-        }
+        result.Count.Should().Be(2);
     }
 }
