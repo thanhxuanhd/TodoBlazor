@@ -47,4 +47,6 @@ void Configure()
     {
         endpoints.MapControllers();
     });
+
+    app.AddPersistenceSeedData();
 }

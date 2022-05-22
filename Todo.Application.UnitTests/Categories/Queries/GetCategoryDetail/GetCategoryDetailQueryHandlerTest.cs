@@ -17,7 +17,7 @@ namespace Todo.Application.UnitTests.Categories.Queries.GetCategoryDetail;
 public class GetCategoryDetailQueryHandlerTest
 {
     private readonly IMapper _mapper;
-    public readonly Mock<IAsyncRepository<Category>> _mockCategoryRepository;
+    private readonly Mock<IAsyncRepository<Category>> _mockCategoryRepository;
 
     public GetCategoryDetailQueryHandlerTest()
     {
@@ -49,7 +49,7 @@ public class GetCategoryDetailQueryHandlerTest
     }
 
     [Fact]
-    public Task Handle_GetCategoryDetailById_NotFound()
+    public async Task Handle_GetCategoryDetailById_NotFound()
     {
         // Arrange
         var handler = new GetCategoryDetailQueryHandler(_mockCategoryRepository.Object, _mapper);
@@ -64,7 +64,6 @@ public class GetCategoryDetailQueryHandlerTest
         };
 
         // Assert
-        action.Should().ThrowAsync<NotFoundException>();
-        return Task.CompletedTask;
+        await action.Should().ThrowAsync<NotFoundException>();
     }
 }

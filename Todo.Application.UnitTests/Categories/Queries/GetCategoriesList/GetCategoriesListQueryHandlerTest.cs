@@ -32,10 +32,13 @@ public class GetCategoriesListQueryHandlerTest
     [Fact]
     public async Task Handle_GetAllCategories_Sucess()
     {
+        // Arrange
         var handler = new GetCategoriesListQueryHandler(_mapper, _mockCategoryRepository.Object);
 
+        // Act
         var result = await handler.Handle(new GetCategoriesListQuery(), CancellationToken.None);
 
+        // Assert
         result.Should().BeOfType<List<CategoryListVm>>();
 
         result.Count.Should().Be(2);

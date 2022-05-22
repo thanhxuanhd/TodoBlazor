@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Common = Todo.Domain.Common;
@@ -7,6 +8,7 @@ using Entities = Todo.Domain.Entities;
 
 namespace Todo.Persistence;
 
+[ExcludeFromCodeCoverage]
 public class TodoDbContext : DbContext
 {
     public TodoDbContext(DbContextOptions<TodoDbContext> options) : base(options)

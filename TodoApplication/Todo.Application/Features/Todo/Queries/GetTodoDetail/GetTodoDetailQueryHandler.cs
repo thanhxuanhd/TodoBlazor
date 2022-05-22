@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Todo.Application.Contracts.Persistence;
+using Todo.Application.Exceptions;
 using Todo.Application.Features.Todo.Queries.GetTodoList;
 using Entities = Todo.Domain.Entities;
 
@@ -26,7 +26,7 @@ public class GetTodoDetailQueryHandler : IRequestHandler<GetTodoDetailQuery, Tod
 
         if (todo == null)
         {
-            throw new Exception("Todo not found");
+            throw new NotFoundException(nameof(Entities.Category), request.TodoId);
         }
 
         todo.Category = new Entities.Category();

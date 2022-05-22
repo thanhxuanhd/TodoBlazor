@@ -8,11 +8,14 @@ using Todo.Domain.Entities;
 using Todo.Persistence;
 using Todo.Persistence.Repositories;
 
+using Entities = Todo.Domain.Entities;
+
 namespace Todo.Application.UnitTests.Mocks;
 
 public class RepositoryMock
 {
     private static Guid CategoryIdNeed { get; set; } = Guid.NewGuid();
+    private static Guid TodoIdNeed { get; set; } = Guid.NewGuid();
 
     public static Mock<ICategoryRepository> MockCategoryRepository()
     {
@@ -53,29 +56,62 @@ public class RepositoryMock
     {
         var categories = SetupCategories().AsQueryable();
 
-        Mock<DbSet<Category>> mockSetCategory = new();
-        mockSetCategory.As<IAsyncEnumerable<Category>>()
+        Mock<DbSet<Category>> mockCategories = new();
+        mockCategories.As<IAsyncEnumerable<Category>>()
             .Setup(m => m.GetAsyncEnumerator(default))
             .Returns(new TestDbAsyncEnumerator<Category>(categories.GetEnumerator()));
 
-        mockSetCategory.As<IQueryable<Category>>()
+        mockCategories.As<IQueryable<Category>>()
             .Setup(m => m.Provider)
             .Returns(new TestDbAsyncQueryProvider<Category>(categories.Provider));
 
-        mockSetCategory.As<IQueryable<Category>>().Setup(m => m.Expression).Returns(categories.Expression);
-        mockSetCategory.As<IQueryable<Category>>().Setup(m => m.ElementType).Returns(categories.ElementType);
-        mockSetCategory.As<IQueryable<Category>>().Setup(m => m.GetEnumerator()).Returns(categories.GetEnumerator());
+        mockCategories.As<IQueryable<Category>>().Setup(m => m.Expression).Returns(categories.Expression);
+        mockCategories.As<IQueryable<Category>>().Setup(m => m.ElementType).Returns(categories.ElementType);
+        mockCategories.As<IQueryable<Category>>().Setup(m => m.GetEnumerator()).Returns(categories.GetEnumerator());
 
         var contextOptions = new DbContextOptions<TodoDbContext>();
         var mockContext = new Mock<TodoDbContext>(contextOptions);
-        mockContext.Setup(c => c.Set<Category>()).Returns(mockSetCategory.Object);
+        mockContext.Setup(c => c.Set<Category>()).Returns(mockCategories.Object);
 
         var mockBaseRepository = new Mock<BaseRepository<Category>>(mockContext.Object);
 
         var mock = new Mock<IAsyncRepository<Category>>();
         mock.Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((Guid categoryId) =>
         {
-            return mockSetCategory.Object.FirstOrDefault(x => x.CategoryId == categoryId);
+            return mockCategories.Object.FirstOrDefault(x => x.CategoryId == categoryId);
+        })
+        .Verifiable();
+
+        return mock;
+    }
+
+    public static Mock<IAsyncRepository<Entities.Todo>> MockAsynTodoRepository()
+    {
+        var todos = SetupTodos().AsQueryable();
+
+        Mock<DbSet<Entities.Todo>> mockTodos = new();
+        mockTodos.As<IAsyncEnumerable<Entities.Todo>>()
+            .Setup(m => m.GetAsyncEnumerator(default))
+            .Returns(new TestDbAsyncEnumerator<Entities.Todo>(todos.GetEnumerator()));
+
+        mockTodos.As<IQueryable<Entities.Todo>>()
+            .Setup(m => m.Provider)
+            .Returns(new TestDbAsyncQueryProvider<Category>(todos.Provider));
+
+        mockTodos.As<IQueryable<Entities.Todo>>().Setup(m => m.Expression).Returns(todos.Expression);
+        mockTodos.As<IQueryable<Entities.Todo>>().Setup(m => m.ElementType).Returns(todos.ElementType);
+        mockTodos.As<IQueryable<Entities.Todo>>().Setup(m => m.GetEnumerator()).Returns(todos.GetEnumerator());
+
+        var contextOptions = new DbContextOptions<TodoDbContext>();
+        var mockContext = new Mock<TodoDbContext>(contextOptions);
+        mockContext.Setup(c => c.Set<Entities.Todo>()).Returns(mockTodos.Object);
+
+        var mockBaseRepository = new Mock<BaseRepository<Entities.Todo>>(mockContext.Object);
+
+        var mock = new Mock<IAsyncRepository<Entities.Todo>>();
+        mock.Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((Guid todoId) =>
+        {
+            return mockTodos.Object.FirstOrDefault(x => x.TodoId == todoId);
         })
         .Verifiable();
 
@@ -93,7 +129,6 @@ public class RepositoryMock
             Todos = new List<Todo.Domain.Entities.Todo>()
         };
 
-
         Category category2 = new()
         {
             Name = "My Todo 2",
@@ -109,9 +144,37 @@ public class RepositoryMock
         return categories;
     }
 
-    private static List<Todo.Domain.Entities.Todo> SetupTodos()
+    private static List<Entities.Todo> SetupTodos()
     {
-        List<Todo.Domain.Entities.Todo> todos = new();
+        List<Entities.Todo> todos = new()
+        {
+            new Entities.Todo()
+            {
+                TodoId = TodoIdNeed,
+                Title = "Todo 1",
+                CategoryId = CategoryIdNeed
+            },
+            new Entities.Todo()
+            {
+                TodoId = Guid.NewGuid(),
+                Title = "Todo 2",
+                CategoryId = CategoryIdNeed
+            },
+            new Entities.Todo()
+            {
+                TodoId = Guid.NewGuid(),
+                Title = "Todo 3",
+                CategoryId = CategoryIdNeed,
+                IsCompleted = true
+            },
+            new Entities.Todo()
+            {
+                TodoId = Guid.NewGuid(),
+                Title = "Todo 4",
+                CategoryId = Guid.NewGuid(),
+                IsCompleted = true
+            }
+        };
 
         return todos;
     }
@@ -121,4 +184,8 @@ public class RepositoryMock
         return CategoryIdNeed;
     }
 
+    public static Guid GetTodoId()
+    {
+        return TodoIdNeed;
+    }
 }
