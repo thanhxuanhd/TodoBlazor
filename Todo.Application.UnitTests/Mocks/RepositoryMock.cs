@@ -41,6 +41,11 @@ public class RepositoryMock
             return category;
         });
 
+        mock.Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((Guid categoryId) =>
+        {
+            return mockSetCategory.Object.FirstOrDefault(x => x.CategoryId == categoryId);
+        });
+
         return mock;
     }
 

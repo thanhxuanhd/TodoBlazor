@@ -93,14 +93,14 @@ public class UpdateCategoryCommandHandlerTest
     public async Task Handle_CreateCategory_Invalid_NameIsDuplicate_ErrorResponse()
     {
         // Arrange
-        var createCategoryHandler = new UpdateCategoryCommandHandler(_mapper, _mockCategoryRepository.Object);
+        var updateCategoryHandler = new UpdateCategoryCommandHandler(_mapper, _mockCategoryRepository.Object);
 
         _mockCategoryRepository.Setup(c => c.CheckCategoryDuplicate(It.IsAny<string>()))
             .Returns(true);
 
         var categoryId = RepositoryMock.GetCategoryId();
         // Act
-        var response = await createCategoryHandler.Handle(new UpdateCategoryCommand()
+        var response = await updateCategoryHandler.Handle(new UpdateCategoryCommand()
         {
             CategoryId = categoryId,
             Name = "My Todo"
@@ -110,5 +110,44 @@ public class UpdateCategoryCommandHandlerTest
         response.ValidationErrors.Should().HaveCount(1);
         response.ValidationErrors.Should().Contain("Name is duplicate.");
         response.Success.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task Handle_CreateCategory_ValidRequest_CategoryNotFound_ErrorResponse()
+    {
+        // Arrange
+        var updateCategoryHandler = new UpdateCategoryCommandHandler(_mapper, _mockCategoryRepository.Object);
+        var categoryId = Guid.NewGuid();
+
+        // Act
+        var response = await updateCategoryHandler.Handle(new UpdateCategoryCommand()
+        {
+            CategoryId = categoryId,
+            Name = "My Todo Update"
+        }, CancellationToken.None);
+
+        // Assert
+        response.ValidationErrors.Should().HaveCount(1);
+        response.ValidationErrors.Should().Contain($"Category not found id {categoryId}");
+        response.Success.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task Handle_CreateCategory_ValidRequest_CategoryUpdate_SuccessResponse()
+    {
+        // Arrange
+        var updateCategoryHandler = new UpdateCategoryCommandHandler(_mapper, _mockCategoryRepository.Object);
+        var categoryId = RepositoryMock.GetCategoryId();
+
+        // Act
+        var response = await updateCategoryHandler.Handle(new UpdateCategoryCommand()
+        {
+            CategoryId = categoryId,
+            Name = "My Todo Update"
+        }, CancellationToken.None);
+
+        // Assert
+        response.ValidationErrors.Should().HaveCount(0);
+        response.Success.Should().BeTrue();
     }
 }
