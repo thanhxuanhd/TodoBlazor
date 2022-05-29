@@ -21,7 +21,7 @@ public class GetTodoDetailQueryHandlerTests
 
     public GetTodoDetailQueryHandlerTests()
     {
-        _mockTodoRepository = RepositoryMock.MockAsynTodoRepository();
+        _mockTodoRepository = RepositoryMock.MockAsyncTodoRepository();
 
         var configurationProvider = new MapperConfiguration(cfg =>
         {

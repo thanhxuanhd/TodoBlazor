@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Todo.Application.Contracts.Persistence;
@@ -26,14 +26,10 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
 
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
-        if (validationResult.Errors.Count > 0)
+        if (validationResult.Errors.Any())
         {
             updateCategoryResponse.Success = false;
-            updateCategoryResponse.ValidationErrors = new List<string>();
-            foreach (var error in validationResult.Errors)
-            {
-                updateCategoryResponse.ValidationErrors.Add(error.ErrorMessage);
-            }
+            updateCategoryResponse.ValidationErrors = validationResult.Errors.Select(error => error.ErrorMessage).ToList();
             updateCategoryResponse.Category = _mapper.Map<UpdateCategoryDto>(request);
 
             return updateCategoryResponse;

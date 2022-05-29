@@ -85,7 +85,7 @@ public class RepositoryMock
         return mock;
     }
 
-    public static Mock<IAsyncRepository<Entities.Todo>> MockAsynTodoRepository()
+    public static Mock<IAsyncRepository<Entities.Todo>> MockAsyncTodoRepository()
     {
         var todos = SetupTodos().AsQueryable();
 
@@ -114,6 +114,11 @@ public class RepositoryMock
             return mockTodos.Object.FirstOrDefault(x => x.TodoId == todoId);
         })
         .Verifiable();
+
+        mock.Setup(repo => repo.AddAsync(It.IsAny<Entities.Todo>())).ReturnsAsync((Entities.Todo todo)=> {
+            todo.TodoId = Guid.NewGuid();
+            return todo;
+        });
 
         return mock;
     }

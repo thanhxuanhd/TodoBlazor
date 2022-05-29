@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Todo.Application.Contracts.Persistence;
@@ -26,18 +26,13 @@ public class CreateTodoCommandHandler : IRequestHandler<CreateTodoCommand, Creat
         var validator = new CreateTodoCommandValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
-        if (validationResult.Errors.Count > 0)
+        if (validationResult.Errors.Any())
         {
             createTodoCommandResponse.Success = false;
-            createTodoCommandResponse.ValidationErrors = new List<string>();
-            foreach (var error in validationResult.Errors)
-            {
-                createTodoCommandResponse.ValidationErrors.Add(error.ErrorMessage);
-            }
+            createTodoCommandResponse.ValidationErrors = validationResult.Errors.Select(error => error.ErrorMessage).ToList();
             createTodoCommandResponse.Todo = _mapper.Map<CreateTodoDto>(request);
         }
-
-        if (createTodoCommandResponse.Success)
+        else
         {
             var todo = _mapper.Map<Entities.Todo>(request);
             todo = await _todoRepository.AddAsync(todo);

@@ -23,6 +23,7 @@ public class MappingProfile : Profile
         CreateMap<UpdateTodoDto, UpdateCategoryCommand>().ReverseMap();
         CreateMap<Entities.Todo, CreateTodoCommand>().ReverseMap();
         CreateMap<Entities.Todo, UpdateTodoCommand>().ReverseMap();
+        CreateMap<UpdateTodoDto, UpdateTodoCommand>().ReverseMap();
 
         CreateMap<Entities.Category, CategoryListVm>().ReverseMap();
         CreateMap<Entities.Category, CreateCategoryDto>().ReverseMap();
