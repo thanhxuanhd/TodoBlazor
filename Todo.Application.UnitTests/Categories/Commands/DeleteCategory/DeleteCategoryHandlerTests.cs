@@ -34,7 +34,7 @@ public class DeleteCategoryHandlerTests
     public async Task Handle_DeleteCategory_CategoryNotFound_Update_Fail()
     {
         // Arrange
-        var deleteCategoryHandler = new DeleteCategoryHandler(_mockCategoryRepository.Object, _mapper);
+        var deleteCategoryHandler = new DeleteCategoryCommandHandler(_mockCategoryRepository.Object, _mapper);
         var categoryId = Guid.NewGuid();
 
         // Act
@@ -51,7 +51,7 @@ public class DeleteCategoryHandlerTests
     public async Task Handle_DeleteCategory_CategoryFound_Update_Success()
     {
         // Arrange
-        var deleteCategoryHandler = new DeleteCategoryHandler(_mockCategoryRepository.Object, _mapper);
+        var deleteCategoryHandler = new DeleteCategoryCommandHandler(_mockCategoryRepository.Object, _mapper);
         var categoryId = RepositoryMock.GetCategoryId();
 
         // Act

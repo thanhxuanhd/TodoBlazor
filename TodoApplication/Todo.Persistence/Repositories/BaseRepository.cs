@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Todo.Application.Contracts.Persistence;
 
 namespace Todo.Persistence.Repositories;
 
+[ExcludeFromCodeCoverage]
 public class BaseRepository<T> : IAsyncRepository<T> where T : class
 {
     protected readonly TodoDbContext _dbContext;
@@ -26,7 +28,7 @@ public class BaseRepository<T> : IAsyncRepository<T> where T : class
         return await _dbContext.Set<T>().ToListAsync();
     }
 
-    public async virtual Task<IReadOnlyList<T>> GetPagedReponseAsync(int page, int size)
+    public virtual async Task<IReadOnlyList<T>> GetPagedReponseAsync(int page, int size)
     {
         return await _dbContext.Set<T>().Skip((page - 1) * size).Take(size).AsNoTracking().ToListAsync();
     }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Todo.Application.Contracts;
@@ -8,6 +9,7 @@ using Entities = Todo.Domain.Entities;
 
 namespace Todo.Persistence.Repositories;
 
+[ExcludeFromCodeCoverage]
 public class TodoRepository : BaseRepository<Entities.Todo>, ITodoRepository
 {
     public TodoRepository(TodoDbContext dbContext) : base(dbContext)

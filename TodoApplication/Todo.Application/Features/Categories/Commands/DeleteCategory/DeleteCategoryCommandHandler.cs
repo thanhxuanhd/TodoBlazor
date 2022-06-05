@@ -9,12 +9,12 @@ using Entities = Todo.Domain.Entities;
 
 namespace Todo.Application.Features.Categories.Commands.DeleteCategory
 {
-    public class DeleteCategoryHandler : IRequestHandler<DeleteCategoryCommand, bool>
+    public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand, bool>
     {
         private readonly IAsyncRepository<Entities.Category> _categoryRepository;
         private readonly IMapper _mapper;
 
-        public DeleteCategoryHandler(IAsyncRepository<Entities.Category> categoryRepository, IMapper mapper)
+        public DeleteCategoryCommandHandler(IAsyncRepository<Entities.Category> categoryRepository, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
             _mapper = mapper;
