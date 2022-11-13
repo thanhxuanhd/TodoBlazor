@@ -43,10 +43,7 @@ void Configure()
 
     app.UseAuthorization();
 
-    app.UseEndpoints(endpoints =>
-    {
-        endpoints.MapControllers();
-    });
+    app.MapControllers();
 
     app.AddPersistenceSeedData();
 }
