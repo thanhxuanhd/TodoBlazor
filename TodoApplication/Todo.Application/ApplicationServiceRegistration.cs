@@ -15,7 +15,6 @@ public static class ApplicationServiceRegistration
             cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
         });
 
-
         return services;
     }
 }
